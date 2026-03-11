@@ -118,7 +118,7 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
 
       <main
         id="main-container"
-        className={`w-full max-w-screen-sm sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto pb-8 px-4 sm:px-6 ${
+        className={`w-full max-w-6xl mx-auto pb-8 px-4 sm:px-8 lg:px-12 ${
           (activeToolData || searchQuery) ? 'tool-active' : 'space-y-3'
         }`}
       >
