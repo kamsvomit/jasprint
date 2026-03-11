@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { Product } from '../types';
 
 export interface ProductData {
   id: string;
@@ -14,9 +13,9 @@ export interface ProductData {
 export async function getAllProducts(): Promise<ProductData[]> {
   const productsDir = path.join(process.cwd(), 'src/products');
   const files = fs.readdirSync(productsDir).filter(file => file.endsWith('.ts'));
-  
+
   const products: ProductData[] = [];
-  
+
   for (const file of files) {
     try {
       const module = await import(`../products/${file.replace('.ts', '')}`);
@@ -28,13 +27,13 @@ export async function getAllProducts(): Promise<ProductData[]> {
           description: prod.description,
           longDescription: prod.longDescription,
           category: prod.category,
-          filename: file.replace('.ts', '')
+          filename: file.replace('.ts', ''),
         });
       }
     } catch (e) {
       console.error(`Failed to load product ${file}:`, e);
     }
   }
-  
+
   return products;
 }

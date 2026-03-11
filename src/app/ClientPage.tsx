@@ -10,7 +10,6 @@ import AboutContent from '../components/AboutContent';
 import { Product } from '../types';
 import { ProductData } from '../lib/products';
 import { ChevronUp } from 'lucide-react';
-import { playSound } from '../utils';
 
 interface ClientPageProps {
   initialProducts: ProductData[];
@@ -27,19 +26,17 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
   const loadingIdRef = useRef<string | null>(null);
   const scrollPositionRef = useRef<number>(0);
 
-  // Theme and Scroll initialization
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' || 'light';
     setTheme(savedTheme);
     document.documentElement.classList.toggle('dark', savedTheme === 'dark');
 
-    const lastId = localStorage.getItem('last_tool_id');
+    const lastId = localStorage.getItem('last_product_id');
     if (lastId) {
-      const tool = initialProducts.find(c => c.id === lastId);
+      const tool = initialProducts.find(p => p.id === lastId);
       if (tool) setLastTool(tool);
     }
 
-    // Debounced scroll listener
     let scrollTimeout: NodeJS.Timeout;
     const handleScroll = () => {
       if (scrollTimeout) clearTimeout(scrollTimeout);
@@ -58,6 +55,7 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
     if (initialActiveTool) {
       handleSelectTool(initialActiveTool);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialActiveTool]);
 
   const toggleTheme = () => {
@@ -69,34 +67,30 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
 
   const handleSelectTool = async (productData: ProductData) => {
     loadingIdRef.current = productData.id;
-    // Save current scroll position before opening tool
     scrollPositionRef.current = window.scrollY;
+
+    // Simpan last tool SEBELUM update state baru
+    const prevLastId = localStorage.getItem('last_product_id');
+    if (prevLastId && prevLastId !== productData.id) {
+      const prev = initialProducts.find(p => p.id === prevLastId);
+      if (prev) setLastTool(prev);
+    }
+
     setActiveToolData(productData);
-    setActiveTool(null); // Clear previous tool while loading
-    localStorage.setItem('last_tool_id', productData.id);
+    setActiveTool(null);
+    localStorage.setItem('last_product_id', productData.id);
     window.scrollTo({ top: 0, behavior: 'instant' });
-    
-    // Update URL without full reload
     window.history.pushState(null, '', `/produk/${productData.id}`);
-    
-    // Load the actual calculator module on the client
+
     try {
       const module = await import(`../products/${productData.filename}`);
       if (loadingIdRef.current !== productData.id) return;
-      
-      const calc = module.default || module[Object.keys(module)[0]];
-      setActiveTool(calc);
+      const prod = module.default || module[Object.keys(module)[0]];
+      setActiveTool(prod);
     } catch (e) {
       if (loadingIdRef.current === productData.id) {
         console.error('Failed to load product module:', e);
       }
-    }
-
-    // Update last tool for the UI
-    const prevLastId = localStorage.getItem('last_tool_id');
-    if (prevLastId && prevLastId !== productData.id) {
-       const tool = initialProducts.find(c => c.id === prevLastId);
-       if (tool) setLastTool(tool);
     }
   };
 
@@ -104,54 +98,57 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
     setActiveTool(null);
     setActiveToolData(null);
     window.history.pushState(null, '', '/');
-    // Restore scroll position
     requestAnimationFrame(() => {
       window.scrollTo({ top: scrollPositionRef.current, behavior: 'instant' });
     });
-    // Refresh last tool from storage
-    const lastId = localStorage.getItem('last_tool_id');
+    const lastId = localStorage.getItem('last_product_id');
     if (lastId) {
-      const tool = initialProducts.find(c => c.id === lastId);
+      const tool = initialProducts.find(p => p.id === lastId);
       if (tool) setLastTool(tool);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-arsenic/[0.02] selection:bg-red-500/30">
-      <Header 
-        onSearch={setSearchQuery} 
+      <Header
+        onSearch={setSearchQuery}
         searchQuery={searchQuery}
-        theme={theme} 
-        toggleTheme={toggleTheme} 
+        theme={theme}
+        toggleTheme={toggleTheme}
       />
 
-      <main id="main-container" className={`max-w-2xl mx-auto w-full pb-8 px-2 sm:px-4 md:px-6 ${(activeToolData || searchQuery) ? 'tool-active' : 'space-y-3'}`}>
-        <Hero 
-          activeTool={activeTool} 
+      <main
+        id="main-container"
+        className={`max-w-2xl mx-auto w-full pb-8 px-2 sm:px-4 md:px-6 ${
+          (activeToolData || searchQuery) ? 'tool-active' : 'space-y-3'
+        }`}
+      >
+        <Hero
+          activeTool={activeTool}
           activeToolData={activeToolData}
-          onClose={handleCloseTool} 
-          totalTools={initialProducts.length}
+          onClose={handleCloseTool}
+          totalProducts={initialProducts.length}
           lastTool={lastTool}
           onOpenLastTool={() => lastTool && handleSelectTool(lastTool)}
           searchQuery={searchQuery}
-          calculators={initialProducts}
-          onSelectTool={(calc) => {
-            handleSelectTool(calc);
+          products={initialProducts}
+          onSelectTool={(prod) => {
+            handleSelectTool(prod);
             setSearchQuery('');
           }}
         />
 
         {!activeToolData && searchQuery === '' && (
-          <PopularCarousel 
-            calculators={initialProducts} 
-            onSelect={handleSelectTool} 
+          <PopularCarousel
+            products={initialProducts}
+            onSelect={handleSelectTool}
           />
         )}
 
         {!activeToolData && searchQuery === '' && (
-          <ToolList 
-            calculators={initialProducts} 
-            onSelect={handleSelectTool} 
+          <ToolList
+            products={initialProducts}
+            onSelect={handleSelectTool}
             searchQuery={searchQuery}
           />
         )}
@@ -163,13 +160,15 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
         {!activeToolData && (
           <footer className="py-6 text-center border-t border-arsenic/10">
             <p className="text-sm font-black text-arsenic tracking-tight">jasprint</p>
-            <p className="text-[10px] text-arsenic/40 font-medium mt-1 tracking-widest uppercase">Jasa Percetakan Bandung &copy; 2026</p>
+            <p className="text-[10px] text-arsenic/40 font-medium mt-1 tracking-widest uppercase">
+              Jasa Percetakan Bandung &copy; 2026
+            </p>
           </footer>
         )}
       </main>
 
       {showScrollTop && (
-        <button 
+        <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="fixed bottom-8 right-8 p-2 bg-white dark:bg-arsenic rounded-full shadow-lg text-red-600 hover:text-red-700 transition-all z-[100]"
         >

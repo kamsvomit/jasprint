@@ -8,26 +8,10 @@ export interface Product {
   render: (container: HTMLElement) => void;
 }
 
-export interface Calculator {
-  name: string;
-  id: string;
-  description: string;
-  longDescription?: string;
-  category: string;
-  icon?: string;
-  render: (container: HTMLElement) => void;
-}
-
-export type Category = 
-  | 'Keuangan' 
-  | 'Bisnis' 
-  | 'Kesehatan' 
-  | 'Kehidupan Sehari-hari' 
-  | 'Belanja' 
-  | 'Produktivitas' 
-  | 'Utilitas' 
-  | 'Matematika' 
-  | 'Konversi' 
-  | 'Kebugaran' 
-  | 'Rumah' 
+export type Category =
+  | 'Promosi'
+  | 'Identitas'
+  | 'Kebutuhan Kantor'
+  | 'Event & Acara'
+  | 'Luar Ruang'
   | 'Lain-lain';
