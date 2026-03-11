@@ -59,7 +59,7 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
 
   return (
     <header className="sticky top-0 z-[100] h-12 header-apple">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+      <div className="w-full max-w-screen-sm sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto px-4 sm:px-6 h-full flex items-center justify-between">
       <svg width="0" height="0" style={{ position: 'absolute' }}>
         <defs>
           <linearGradient id="brand-grad" x1="0%" y1="0%" x2="100%" y2="0%">
