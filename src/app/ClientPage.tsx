@@ -69,7 +69,6 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
     loadingIdRef.current = productData.id;
     scrollPositionRef.current = window.scrollY;
 
-    // Simpan last tool SEBELUM update state baru
     const prevLastId = localStorage.getItem('last_product_id');
     if (prevLastId && prevLastId !== productData.id) {
       const prev = initialProducts.find(p => p.id === prevLastId);
@@ -108,6 +107,9 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
     }
   };
 
+  const isProductOpen = !!activeToolData;
+  const isSearching = searchQuery !== '';
+
   return (
     <div className="min-h-screen flex flex-col bg-arsenic/[0.02] selection:bg-red-500/30">
       <Header
@@ -117,55 +119,71 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
         toggleTheme={toggleTheme}
       />
 
-      <main
-        id="main-container"
-        className={`max-w-2xl mx-auto w-full pb-8 px-2 sm:px-4 md:px-6 ${
-          (activeToolData || searchQuery) ? 'tool-active' : 'space-y-3'
-        }`}
-      >
-        <Hero
-          activeTool={activeTool}
-          activeToolData={activeToolData}
-          onClose={handleCloseTool}
-          totalProducts={initialProducts.length}
-          lastTool={lastTool}
-          onOpenLastTool={() => lastTool && handleSelectTool(lastTool)}
-          searchQuery={searchQuery}
-          products={initialProducts}
-          onSelectTool={(prod) => {
-            handleSelectTool(prod);
-            setSearchQuery('');
-          }}
-        />
+      {/* ── Desktop: 2 kolom | Mobile: single column ── */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="lg:grid lg:grid-cols-[380px_1fr] lg:gap-10 lg:items-start">
 
-        {!activeToolData && searchQuery === '' && (
-          <PopularCarousel
-            products={initialProducts}
-            onSelect={handleSelectTool}
-          />
-        )}
+          {/* ── KIRI: Hero — sticky di desktop ── */}
+          <aside className="lg:sticky lg:top-16 lg:pt-8 lg:pb-8">
+            {/* Mobile: tampil normal. Desktop: selalu tampil di kiri */}
+            <div className={`${isProductOpen || isSearching ? '' : ''}`}>
+              <Hero
+                activeTool={activeTool}
+                activeToolData={activeToolData}
+                onClose={handleCloseTool}
+                totalProducts={initialProducts.length}
+                lastTool={lastTool}
+                onOpenLastTool={() => lastTool && handleSelectTool(lastTool)}
+                searchQuery={searchQuery}
+                products={initialProducts}
+                onSelectTool={(prod) => {
+                  handleSelectTool(prod);
+                  setSearchQuery('');
+                }}
+              />
+            </div>
+          </aside>
 
-        {!activeToolData && searchQuery === '' && (
-          <ToolList
-            products={initialProducts}
-            onSelect={handleSelectTool}
-            searchQuery={searchQuery}
-          />
-        )}
+          {/* ── KANAN: Konten utama ── */}
+          <main id="main-container" className="lg:pt-8 lg:pb-16 pb-8 space-y-6">
 
-        {!activeToolData && searchQuery === '' && <AboutContent />}
+            {/* Produk aktif di mobile — di desktop tampil di sidebar kiri */}
+            {(isProductOpen || isSearching) && (
+              <div className="lg:hidden pt-3">
+                {/* Hero sudah render di atas untuk mobile */}
+              </div>
+            )}
 
-        {!activeToolData && searchQuery === '' && <FAQ />}
+            {!isProductOpen && !isSearching && (
+              <>
+                <PopularCarousel
+                  products={initialProducts}
+                  onSelect={handleSelectTool}
+                />
+                <ToolList
+                  products={initialProducts}
+                  onSelect={handleSelectTool}
+                  searchQuery={searchQuery}
+                />
+                <AboutContent />
+                <FAQ />
+                <footer className="py-6 text-center border-t border-arsenic/10">
+                  <p className="text-sm font-black text-arsenic tracking-tight">jasprint</p>
+                  <p className="text-[10px] text-arsenic/40 font-medium mt-1 tracking-widest uppercase">
+                    Jasa Percetakan Bandung &copy; 2026
+                  </p>
+                </footer>
+              </>
+            )}
 
-        {!activeToolData && (
-          <footer className="py-6 text-center border-t border-arsenic/10">
-            <p className="text-sm font-black text-arsenic tracking-tight">jasprint</p>
-            <p className="text-[10px] text-arsenic/40 font-medium mt-1 tracking-widest uppercase">
-              Jasa Percetakan Bandung &copy; 2026
-            </p>
-          </footer>
-        )}
-      </main>
+            {/* Search results di kanan pada desktop */}
+            {isSearching && (
+              <div className="hidden lg:block pt-3" />
+            )}
+
+          </main>
+        </div>
+      </div>
 
       {showScrollTop && (
         <button
