@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { ProductData } from '../lib/products';
-import { getToolIcon } from '../lib/icons';
-import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 interface ToolListProps {
@@ -12,73 +10,126 @@ interface ToolListProps {
   searchQuery: string;
 }
 
-export default function ToolList({ products, onSelect, searchQuery }: ToolListProps) {
-  const [expandedGroups, setExpandedGroups] = useState<Record<number, boolean>>({});
+const productVisuals: Record<string, { bg: string; emoji: string; tag: string }> = {
+  'brosur':     { bg: 'from-orange-100 to-amber-50',  emoji: '📄', tag: 'Populer' },
+  'spanduk':    { bg: 'from-sky-100 to-blue-50',      emoji: '🚩', tag: 'Outdoor' },
+  'kartu-nama': { bg: 'from-violet-100 to-purple-50', emoji: '📇', tag: 'Branding' },
+  'sticker':    { bg: 'from-green-100 to-emerald-50', emoji: '🏷️', tag: 'Custom' },
+  'nota':       { bg: 'from-yellow-100 to-lime-50',   emoji: '📒', tag: 'NCR' },
+  'undangan':   { bg: 'from-pink-100 to-rose-50',     emoji: '✉️', tag: 'Event' },
+};
+const defaultVisual = { bg: 'from-gray-100 to-slate-50', emoji: '🖨️', tag: 'Cetak' };
 
-  const filteredProducts = products.filter(p =>
+function shortDesc(desc: string, max = 60): string {
+  if (desc.length <= max) return desc;
+  return desc.substring(0, desc.lastIndexOf(' ', max)) + '…';
+}
+
+function CategoryRow({ name, items, onSelect }: {
+  name: string;
+  items: ProductData[];
+  onSelect: (prod: ProductData) => void;
+}) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div className="space-y-3">
+      {/* Row header */}
+      <div className="flex items-center justify-between px-1">
+        <h3 className="text-base font-black text-primary">{name}</h3>
+        <span className="text-[10px] font-bold text-quaternary uppercase tracking-widest">{items.length} produk</span>
+      </div>
+
+      {/* Scrollable row */}
+      <div
+        ref={scrollRef}
+        className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        {items.map((prod) => {
+          const visual = productVisuals[prod.id] ?? defaultVisual;
+          return (
+            <Link
+              key={prod.id}
+              href={`/produk/${prod.id}`}
+              onClick={(e) => { e.preventDefault(); onSelect(prod); }}
+              className="group flex-none w-[160px] snap-start flex flex-col rounded-2xl overflow-hidden border border-subtle bg-card hover:border-red-200 hover:shadow-md transition-all duration-200 active:scale-[0.97]"
+            >
+              {/* Visual */}
+              <div className={`relative bg-gradient-to-br ${visual.bg} flex items-center justify-center h-[100px]`}>
+                <span className="text-5xl leading-none select-none group-hover:scale-110 transition-transform duration-300">
+                  {visual.emoji}
+                </span>
+                <span className="absolute top-2 left-2 text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-white/75 backdrop-blur-sm text-red-600 border border-red-100">
+                  {visual.tag}
+                </span>
+              </div>
+
+              {/* Content */}
+              <div className="flex flex-col flex-1 p-3 gap-1.5">
+                <h4 className="text-xs font-black text-primary leading-tight group-hover:text-red-600 transition-colors">
+                  {prod.name}
+                </h4>
+                <p className="text-[10px] text-secondary leading-relaxed flex-1">
+                  {shortDesc(prod.description)}
+                </p>
+                <div className="flex items-center gap-0.5 text-red-500 pt-1.5 border-t border-subtle">
+                  <span className="text-[10px] font-black">Pesan sekarang</span>
+                  <svg className="w-2.5 h-2.5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export default function ToolList({ products, onSelect, searchQuery }: ToolListProps) {
+  const filtered = products.filter(p =>
     p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.category.toLowerCase().includes(searchQuery.toLowerCase())
+    p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    p.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const categories = [...new Set(products.map(p => p.category))].sort();
-  const groupedProducts = categories
-    .map(cat => ({
-      name: cat,
-      items: filteredProducts.filter(p => p.category === cat).sort((a, b) => a.name.localeCompare(b.name)),
-    }))
-    .filter(group => group.items.length > 0);
-
-  const toggleGroup = (idx: number) => {
-    setExpandedGroups(prev => ({ ...prev, [idx]: !prev[idx] }));
-  };
+  const grouped = categories
+    .map(cat => ({ name: cat, items: filtered.filter(p => p.category === cat) }))
+    .filter(g => g.items.length > 0);
 
   return (
-    <div id="tools-list-container" className="space-y-6 px-1">
-      <div className="text-center mb-4 space-y-2">
-        <h2 className="text-xl font-black text-primary tracking-tight">Katalog Produk Percetakan</h2>
-        <p className="text-sm text-secondary leading-relaxed max-w-lg mx-auto">
-          Temukan berbagai layanan percetakan berkualitas yang kami sediakan untuk kebutuhan bisnis dan personal Anda.
-        </p>
+    <div className="space-y-6 px-1">
+      {/* Header */}
+      <div className="flex items-end justify-between">
+        <div>
+          <p className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-0.5">Layanan Kami</p>
+          <h2 className="text-xl font-black text-primary tracking-tight leading-tight">
+            Semua Produk<br />Percetakan
+          </h2>
+        </div>
+        <span className="text-xs font-bold text-quaternary pb-1">{filtered.length} produk</span>
       </div>
 
-      {groupedProducts.map((group, gIdx) => (
-        <div key={group.name} className="rounded-2xl p-4 sm:p-5 shadow-sm space-y-4 category-section">
-          <div className="flex items-center justify-between">
-            <h3 className="text-base font-black text-primary">{group.name}</h3>
-            {group.items.length > 4 && (
-              <button
-                onClick={() => toggleGroup(gIdx)}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-full border border-subtle text-red-600 text-xs font-bold hover:bg-subtle transition-colors"
-              >
-                <span>{expandedGroups[gIdx] ? 'Sembunyikan' : 'Lihat semua'}</span>
-                <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-300 ${expandedGroups[gIdx] ? 'rotate-90' : ''}`} />
-              </button>
-            )}
-          </div>
-          <div className="grid grid-cols-4 gap-4 transition-all duration-500 overflow-hidden">
-            {group.items.map((prod, idx) => {
-              const icon = getToolIcon(prod.id);
-              const isHidden = !expandedGroups[gIdx] && idx >= 4 && searchQuery === '';
-              if (isHidden) return null;
-
-              return (
-                <Link
-                  key={prod.id}
-                  href={`/produk/${prod.id}`}
-                  onClick={(e) => { e.preventDefault(); onSelect(prod); }}
-                  className="flex flex-col items-center gap-2 group"
-                  style={{ transitionDelay: `${idx * 50}ms` }}
-                >
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-subtle flex items-center justify-center border border-subtle group-hover:scale-105 transition-transform">
-                    {icon.svg}
-                  </div>
-                  <span className="text-xs font-bold text-primary text-center leading-tight line-clamp-2">{prod.name}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
+      {/* Tiap kategori = 1 row horizontal scrollable */}
+      {grouped.map(group => (
+        <CategoryRow
+          key={group.name}
+          name={group.name}
+          items={group.items}
+          onSelect={onSelect}
+        />
       ))}
+
+      {filtered.length === 0 && (
+        <div className="py-12 text-center">
+          <p className="text-3xl mb-2">🔍</p>
+          <p className="text-sm font-bold text-secondary">Produk tidak ditemukan</p>
+          <p className="text-xs text-quaternary mt-1">Coba kata kunci lain</p>
+        </div>
+      )}
     </div>
   );
 }

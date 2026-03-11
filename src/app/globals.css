@@ -358,11 +358,13 @@ html, body {
   transform: translateY(0);
 }
 
-.no-scrollbar::-webkit-scrollbar {
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
-.no-scrollbar {
+.no-scrollbar,
+.scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -415,6 +417,7 @@ html, body {
 /* ── Semantic bg & border utilities ── */
 .bg-subtle    { background-color: var(--bg-subtle); }
 .bg-hover     { background-color: var(--bg-hover); }
+.bg-card      { background-color: var(--card-bg); }
 .border-subtle { border-color: var(--border-subtle); }
 .border-normal { border-color: var(--border-normal); }
 .divide-subtle > * + * { border-color: var(--border-subtle); }
