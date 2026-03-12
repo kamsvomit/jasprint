@@ -143,30 +143,30 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
 
         {isHome && (<>
 
-          {/* ── 1. HERO: sudah di atas ── */}
+          {/* 1. HERO — Hook, CTA pertama */}
 
-          {/* ── 2. USP — Kenapa jasprint? Beda dari kompetitor ── */}
+          {/* 2. PRODUK — Jawab "apa yang dijual?" */}
+          <div id="produk"><ProductGrid products={initialProducts} onSelect={handleSelectTool} /></div>
+
+          {/* 3. USP — Jawab "kenapa pilih jasprint?" */}
           <UspSection />
 
-          {/* ── 3. PRODUK — Tunjukkan apa yang dijual ── */}
-          <ProductGrid products={initialProducts} onSelect={handleSelectTool} />
+          {/* 4. HOW IT WORKS — Jawab "gimana caranya?" */}
+          <div id="cara-order"><HowItWorks /></div>
 
-          {/* ── 4. CTA #1 — Trigger setelah lihat produk, masih di atas fold ── */}
+          {/* 5. SOCIAL PROOF — Bukti nyata, bangun trust */}
+          <div id="testimoni"><SocialProof /></div>
+
+          {/* 6. CTA #2 — Push setelah trust terbangun */}
           <CtaBanner />
 
-          {/* ── 5. HOW IT WORKS — Hilangkan keraguan soal prosesnya ── */}
-          <HowItWorks />
+          {/* 7. FAQ — Handle objeksi terakhir */}
+          <div id="faq"><FAQ /></div>
 
-          {/* ── 6. SOCIAL PROOF — Bangun trust lewat testimoni ── */}
-          <SocialProof />
-
-          {/* ── 7. FAQ — Handle objeksi terakhir ── */}
-          <FAQ />
-
-          {/* ── 8. CLOSING CTA — Anchor di paling bawah setelah info lengkap ── */}
+          {/* 8. CLOSING CTA — Final push */}
           <ClosingCta />
 
-          {/* ── 9. ABOUT — SEO content, tidak mengganggu konversi ── */}
+          {/* 9. ABOUT — SEO, tidak ganggu konversi */}
           <AboutContent />
 
           {/* ── Footer ── */}
