@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import Image from 'next/image';
 import { motion } from 'motion/react';
 
 const EXCLUDED = new Set([6]);
@@ -23,14 +23,17 @@ function MarqueeRow({ items, reverse = false }: { items: string[]; reverse?: boo
         {doubled.map((src, idx) => (
           <div
             key={idx}
-            className="flex-shrink-0 rounded-lg overflow-hidden bg-white"
-            style={{ width: '220px' }}
+            className="flex-shrink-0 rounded-lg overflow-hidden bg-white relative"
+            style={{ width: '220px', height: '80px' }}
           >
-            <img
+            <Image
               src={src}
               alt={`Review jasprint ${(idx % items.length) + 1}`}
-              className="w-full h-auto block"
+              fill
+              className="object-contain"
               loading="lazy"
+              unoptimized
+              referrerPolicy="no-referrer"
             />
           </div>
         ))}
