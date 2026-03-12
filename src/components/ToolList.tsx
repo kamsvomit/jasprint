@@ -36,7 +36,7 @@ function CategoryRow({ name, items, onSelect }: {
     <div className="space-y-3">
       {/* Row header */}
       <div className="flex items-center justify-between px-1">
-        <h3 className="text-base font-black text-primary">{name}</h3>
+        <p className="text-base font-black text-primary">{name}</p>
         <span className="text-[10px] font-bold text-quaternary uppercase tracking-widest">{items.length} produk</span>
       </div>
 
@@ -67,9 +67,9 @@ function CategoryRow({ name, items, onSelect }: {
 
               {/* Content */}
               <div className="flex flex-col flex-1 p-3 gap-1.5">
-                <h4 className="text-xs font-black text-primary leading-tight group-hover:text-red-600 transition-colors">
+                <p className="text-xs font-black text-primary leading-tight group-hover:text-red-600 transition-colors">
                   {prod.name}
-                </h4>
+                </p>
                 <p className="text-[10px] text-secondary leading-relaxed flex-1">
                   {shortDesc(prod.description)}
                 </p>

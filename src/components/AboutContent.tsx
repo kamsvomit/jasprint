@@ -30,7 +30,7 @@ export default function AboutContent() {
             <div className={`w-10 h-10 rounded-xl ${item.bg} flex items-center justify-center`}>
               {item.icon}
             </div>
-            <h3 className="text-sm font-bold text-primary">{item.title}</h3>
+            <p className="text-sm font-bold text-primary">{item.title}</p>
             <p className="text-xs text-secondary leading-relaxed">{item.desc}</p>
           </div>
         ))}
@@ -49,7 +49,7 @@ export default function AboutContent() {
 
       {/* Produk Layanan */}
       <div className="space-y-3">
-        <h2 className="text-xl font-black text-primary tracking-tight">Produk Layanan Percetakan jasprint</h2>
+        <p className="text-xl font-black text-primary tracking-tight">Produk Layanan Percetakan jasprint</p>
         <p className="text-sm text-secondary leading-relaxed">
           jasprint menyediakan berbagai layanan cetak untuk kebutuhan promosi, branding, dan administrasi bisnis Anda. Produk unggulan kami meliputi cetak brosur full color, cetak spanduk dan banner outdoor, cetak kartu nama profesional, cetak sticker custom berbagai ukuran, cetak nota dan faktur NCR, serta cetak undangan pernikahan dan acara.
         </p>
@@ -85,7 +85,7 @@ export default function AboutContent() {
       <div className="p-4 rounded-xl category-section space-y-2">
         <div className="flex items-center gap-2">
           <MapPin className="w-4 h-4 text-red-500 flex-shrink-0" />
-          <h3 className="text-sm font-bold text-primary">Lokasi jasprint</h3>
+          <p className="text-sm font-bold text-primary">Lokasi jasprint</p>
         </div>
         <p className="text-xs text-secondary leading-relaxed">
           jasprint berlokasi di Bandung, Jawa Barat. Kami melayani pelanggan dari seluruh Indonesia secara online maupun offline. Kunjungi workshop kami atau hubungi via WhatsApp untuk informasi alamat lengkap dan jam operasional.
