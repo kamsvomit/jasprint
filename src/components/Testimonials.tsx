@@ -1,6 +1,5 @@
 "use client";
 
-import Image from 'next/image';
 import { motion } from 'motion/react';
 
 const EXCLUDED = new Set([6]);
@@ -23,17 +22,19 @@ function MarqueeRow({ items, reverse = false }: { items: string[]; reverse?: boo
         {doubled.map((src, idx) => (
           <div
             key={idx}
-            className="flex-shrink-0 rounded-lg overflow-hidden bg-white relative"
+            className="flex-shrink-0 rounded-lg overflow-hidden bg-white border border-arsenic/5"
             style={{ width: '220px', height: '80px' }}
           >
-            <Image
-              src={src}
+            <img
+              src={`${src}?v=2`}
               alt={`Review jasprint ${(idx % items.length) + 1}`}
-              fill
-              className="object-contain"
+              className="w-full h-full object-contain"
               loading="lazy"
-              unoptimized
-              referrerPolicy="no-referrer"
+              onError={(e) => {
+                console.error(`Failed to load image: ${src}`);
+                // Fallback to a placeholder if it still fails
+                (e.target as HTMLImageElement).src = `https://picsum.photos/seed/jasprint-${idx}/220/80?grayscale`;
+              }}
             />
           </div>
         ))}
