@@ -75,7 +75,8 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
             <path d="M19,8l-4,4h3c0,3.3-2.7,6-6,6c-0.7,0-1.3-0.1-1.9-0.4l-1.5,1.5C9.7,19.7,10.8,20,12,20c4.4,0,8-3.6,8-8h3L19,8z M6,12 c0-3.3,2.7-6,6-6c0.7,0,1.3,0.1,1.9,0.4l1.5-1.5C14.3,4.3,13.2,4,12,4c-4.4,0-8,3.6-8,8H1L5,16l4-4H6z" />
           </svg>
           <h1 className="text-sm font-bold tracking-tight" style={{ background: 'linear-gradient(90deg,#dc2626,#f97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-            jasprint
+            <span aria-hidden="true">jasprint</span>
+            <span className="sr-only">Percetakan jasprint Bandung — Cetak Murah Berkualitas</span>
           </h1>
         </div>
       </div>
