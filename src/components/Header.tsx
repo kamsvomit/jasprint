@@ -9,25 +9,32 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export interface NavPage {
+  id: string;
+  label: string;
+  emoji: string;
+}
+
+export const NAV_PAGES: NavPage[] = [
+  { id: 'cara-order',  label: 'Cara Order',   emoji: '📦' },
+  { id: 'faq',         label: 'FAQ',           emoji: '❓' },
+  { id: 'tentang',     label: 'Tentang Kami',  emoji: '🏅' },
+  { id: 'blog',        label: 'Blog',          emoji: '📝' },
+];
+
 interface HeaderProps {
   onSearch: (query: string) => void;
   searchQuery: string;
   theme: 'light' | 'dark';
   toggleTheme: () => void;
+  onNavPage: (page: NavPage) => void;
 }
-
-const navLinks = [
-  { label: 'Produk',     href: '#produk' },
-  { label: 'Cara Order', href: '#cara-order' },
-  { label: 'Testimoni',  href: '#testimoni' },
-  { label: 'FAQ',        href: '#faq' },
-];
 
 const WA_NUMBER = '628123456789';
 const WA_MSG = encodeURIComponent('Halo jasprint! Saya mau konsultasi cetak nih 🙏');
 const ICON_STYLE = { color: '#dc2626', stroke: 'currentColor' };
 
-export default function Header({ onSearch, searchQuery, theme, toggleTheme }: HeaderProps) {
+export default function Header({ onSearch, searchQuery, theme, toggleTheme, onNavPage }: HeaderProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -44,8 +51,7 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       const searchContainer = inputRef.current?.parentElement;
-      const isSearchResult = target.closest('.search-result-item');
-      if (isSearchOpen && searchContainer && !searchContainer.contains(target) && !isSearchResult) {
+      if (isSearchOpen && searchContainer && !searchContainer.contains(target)) {
         setIsSearchOpen(false);
         if (searchQuery !== '') onSearch('');
       }
@@ -60,18 +66,15 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
     return () => window.removeEventListener('scroll', onScroll);
   }, [isMenuOpen]);
 
-  const scrollTo = (href: string) => {
+  const handleNavClick = (page: NavPage) => {
     setIsMenuOpen(false);
-    const id = href.replace('#', '');
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    onNavPage(page);
   };
 
   return (
     <header className="sticky top-0 z-[100] header-apple">
       <div className="w-full max-w-6xl mx-auto px-4 sm:px-8 lg:px-12 h-14 flex items-center justify-between gap-6">
 
-        {/* Hidden SVG defs for gradient */}
         <svg width="0" height="0" style={{ position: 'absolute' }}>
           <defs>
             <linearGradient id="brand-grad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -94,23 +97,21 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
           </h1>
         </div>
 
-        {/* Desktop nav — hidden on mobile */}
+        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1 flex-1">
-          {navLinks.map(link => (
+          {NAV_PAGES.map(page => (
             <button
-              key={link.href}
-              onClick={() => scrollTo(link.href)}
+              key={page.id}
+              onClick={() => handleNavClick(page)}
               className="px-3 py-1.5 text-sm font-semibold text-secondary hover:text-primary rounded-lg hover:bg-arsenic/5 transition-colors whitespace-nowrap"
             >
-              {link.label}
+              {page.label}
             </button>
           ))}
         </nav>
 
         {/* Right side */}
         <div className="flex items-center gap-1 flex-shrink-0">
-
-          {/* Theme toggle */}
           <button onClick={toggleTheme} className="p-1.5 hover:bg-arsenic/5 rounded-md transition-colors">
             {theme === 'dark'
               ? <Sun className="w-4 h-4" style={ICON_STYLE} />
@@ -118,7 +119,6 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
             }
           </button>
 
-          {/* Search */}
           <div className="relative flex items-center">
             <input
               ref={inputRef}
@@ -139,7 +139,6 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
             </button>
           </div>
 
-          {/* Desktop WA button */}
           <a
             href={`https://wa.me/${WA_NUMBER}?text=${WA_MSG}`}
             target="_blank"
@@ -150,7 +149,6 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
             Order WA
           </a>
 
-          {/* Hamburger — mobile only */}
           <button
             onClick={() => setIsMenuOpen(v => !v)}
             className="md:hidden p-1.5 hover:bg-arsenic/5 rounded-md transition-colors"
@@ -163,17 +161,18 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
         </div>
       </div>
 
-      {/* Mobile dropdown — only on small screens */}
+      {/* Mobile dropdown */}
       {isMenuOpen && (
         <div className="md:hidden absolute top-14 right-0 w-56 header-apple border-t border-arsenic/10 shadow-xl rounded-bl-2xl overflow-hidden">
           <nav className="py-2">
-            {navLinks.map(link => (
+            {NAV_PAGES.map(page => (
               <button
-                key={link.href}
-                onClick={() => scrollTo(link.href)}
-                className="w-full text-left px-5 py-3 text-sm font-semibold text-primary hover:bg-subtle transition-colors"
+                key={page.id}
+                onClick={() => handleNavClick(page)}
+                className="w-full text-left px-5 py-3 text-sm font-semibold text-primary hover:bg-subtle transition-colors flex items-center gap-2.5"
               >
-                {link.label}
+                <span>{page.emoji}</span>
+                {page.label}
               </button>
             ))}
             <div className="mx-3 my-2 border-t border-subtle" />
