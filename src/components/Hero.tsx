@@ -145,9 +145,29 @@ export default function Hero({
           </div>
         )}
 
+        {/* Related products — anchor links buat SEO crawler */}
+        {products && products.filter(p => p.id !== activeToolData.id).length > 0 && (
+          <div className="mt-8 pt-6 border-t border-subtle">
+            <p className="text-xs font-bold text-quaternary uppercase tracking-widest mb-3">Produk Lainnya</p>
+            <div className="grid grid-cols-2 gap-2">
+              {products.filter(p => p.id !== activeToolData.id).map(p => (
+                <a
+                  key={p.id}
+                  href={`/produk/${p.id}`}
+                  className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-subtle bg-subtle hover:border-red-200 hover:bg-red-50 dark:hover:border-red-500/30 dark:hover:bg-red-500/10 transition-colors group"
+                >
+                  <span className="text-sm leading-none">
+                    {p.id === 'brosur' ? '📄' : p.id === 'kartu-nama' ? '📇' : p.id === 'sticker' ? '🏷️' : p.id === 'spanduk' ? '🚩' : p.id === 'nota' ? '📒' : '✉️'}
+                  </span>
+                  <span className="text-xs font-bold text-secondary group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors leading-tight">{p.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
         {lastTool && lastTool.id !== activeToolData.id && (
-          <div className="mt-6 pt-5 border-t border-subtle">
-            <p className="text-xs font-bold text-quaternary uppercase tracking-widest mb-2">Terakhir Dilihat</p>
+          <div className="mt-4 pt-4 border-t border-subtle">
             <button onClick={onOpenLastProduct} className="flex items-center gap-1.5 group">
               <ArrowLeft className="w-3.5 h-3.5 text-red-500 group-hover:-translate-x-0.5 transition-transform" />
               <span className="text-sm font-bold text-red-500 group-hover:text-red-600 transition-colors">
