@@ -10,21 +10,27 @@ import BlogPreview from '../components/BlogPreview';
 import { Product } from '../types';
 import { ProductData } from '../lib/products';
 import { BlogPost } from '../lib/blog';
-import { NAV_PAGE_CONTENTS } from '../lib/navPages';
 import { ChevronUp } from 'lucide-react';
+import { WA_NUMBER, SITE_URL } from '../lib/constants';
 
 interface ClientPageProps {
   initialProducts: ProductData[];
   initialActiveTool?: ProductData | null;
+  initialActiveBlogPost?: BlogPost | null;
   recentPosts?: BlogPost[];
 }
 
-const WA_NUMBER = '628123456789';
+// const WA_NUMBER = '628123456789';
 
-export default function ClientPage({ initialProducts, initialActiveTool = null, recentPosts = [] }: ClientPageProps) {
+export default function ClientPage({ 
+  initialProducts, 
+  initialActiveTool = null, 
+  initialActiveBlogPost = null,
+  recentPosts = [] 
+}: ClientPageProps) {
   const [activeTool, setActiveTool] = useState<Product | null>(null);
   const [activeToolData, setActiveToolData] = useState<ProductData | null>(initialActiveTool);
-  const [activeBlogPost, setActiveBlogPost] = useState<BlogPost | null>(null);
+  const [activeBlogPost, setActiveBlogPost] = useState<BlogPost | null>(initialActiveBlogPost);
   const [activeNavPage, setActiveNavPage] = useState<NavPage | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -106,7 +112,7 @@ export default function ClientPage({ initialProducts, initialActiveTool = null, 
     if (!post.content) {
       fetch(
         `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/posts?slug=eq.${encodeURIComponent(post.slug)}&published=eq.true&limit=1`,
-        { headers: { apikey: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!, Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!}` } }
+        { headers: { apikey: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ?? '', Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ?? ''}` } }
       ).then(r => r.json()).then(rows => { if (rows[0]) setActiveBlogPost(rows[0]); }).catch(() => {});
     }
   };
@@ -204,7 +210,7 @@ export default function ClientPage({ initialProducts, initialActiveTool = null, 
             <div className="flex items-center justify-center gap-3">
               <span className="text-xs text-arsenic/40 font-medium">Bagikan:</span>
               <a
-                href={`https://wa.me/?text=${encodeURIComponent('Percetakan jasprint Bandung — Cetak murah berkualitas! https://jasprint.vercel.app')}`}
+                href={`https://wa.me/?text=${encodeURIComponent(`Percetakan jasprint Bandung — Cetak murah berkualitas! ${SITE_URL}`)}`}
                 target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-50 dark:bg-green-500/10 text-green-600 text-xs font-semibold hover:bg-green-100 transition-colors"
               >

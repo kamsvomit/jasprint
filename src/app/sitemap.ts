@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { getAllProducts } from '../lib/products';
 import { getAllSlugs } from '../lib/blog';
 
-const BASE_URL = 'https://jasprint.vercel.app';
+import { SITE_URL as BASE_URL } from '../lib/constants';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, blogSlugs] = await Promise.all([

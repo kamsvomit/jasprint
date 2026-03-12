@@ -7,7 +7,7 @@ export interface NavPageContent {
   html: string;
 }
 
-const WA = 'https://wa.me/628123456789?text=Halo%20jasprint!%20Saya%20mau%20konsultasi%20cetak%20nih%20%F0%9F%99%8F';
+import { WA_URL as WA } from './constants';
 
 export const NAV_PAGE_CONTENTS: NavPageContent[] = [
 

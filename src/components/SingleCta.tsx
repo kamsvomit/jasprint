@@ -1,8 +1,6 @@
 "use client";
 import React from 'react';
-
-const WA_NUMBER = '628123456789';
-const WA_MSG = encodeURIComponent('Halo jasprint! Saya mau konsultasi cetak nih 🙏');
+import { WA_NUMBER, WA_MSG } from '../lib/constants';
 
 const WA_ICON = (
   <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">

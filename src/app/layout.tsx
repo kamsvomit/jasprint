@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import "./globals.css";
+import { SITE_URL, SITE_NAME, WA_NUMBER } from "../lib/constants";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -9,8 +10,6 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   variable: '--font-jakarta',
 });
 
-const SITE_URL = 'https://jasprint.vercel.app';
-const SITE_NAME = 'Percetakan jasprint Bandung';
 const OG_IMAGE = `${SITE_URL}/icon-512.png`;
 
 export const metadata: Metadata = {
@@ -90,7 +89,7 @@ const localBusinessSchema = {
   logo: `${SITE_URL}/icon-512.png`,
   image: `${SITE_URL}/icon-512.png`,
   description: 'Jasa percetakan murah dan berkualitas di Bandung sejak 1990. Melayani cetak brosur, spanduk, kartu nama, sticker, nota, dan undangan.',
-  telephone: '+628123456789',
+  telephone: `+${WA_NUMBER}`,
   priceRange: '$$',
   currenciesAccepted: 'IDR',
   paymentAccepted: 'Cash, Bank Transfer, GoPay, OVO, Dana',
@@ -115,7 +114,7 @@ const localBusinessSchema = {
     },
   ],
   sameAs: [
-    'https://wa.me/628123456789',
+    `https://wa.me/${WA_NUMBER}`,
   ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',

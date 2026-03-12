@@ -1,14 +1,13 @@
 import React from 'react';
 import { getAllProducts } from '../../../lib/products';
+import { getRecentPosts } from '../../../lib/blog';
 import ClientPage from '../../ClientPage';
 import { Metadata } from 'next';
+import { SITE_URL, WA_NUMBER } from '../../../lib/constants';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
-
-const SITE_URL = 'https://jasprint.vercel.app';
-const WA_NUMBER = '628123456789';
 
 const keywordMap: Record<string, string[]> = {
   'brosur':     ['cetak brosur bandung', 'cetak leaflet murah', 'cetak brosur trifold', 'percetakan brosur bandung', 'cetak brosur online'],
@@ -60,7 +59,10 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }: Props) {
   const { slug } = await params;
-  const products = await getAllProducts();
+  const [products, recentPosts] = await Promise.all([
+    getAllProducts(),
+    getRecentPosts(3)
+  ]);
   const initialProduct = products.find(p => p.id === slug) || null;
 
   const productSchema = initialProduct ? {
@@ -124,7 +126,11 @@ export default async function Page({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {productSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />}
       {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
-      <ClientPage initialProducts={products} initialActiveTool={initialProduct} />
+      <ClientPage 
+        initialProducts={products} 
+        initialActiveTool={initialProduct} 
+        recentPosts={recentPosts}
+      />
     </>
   );
 }

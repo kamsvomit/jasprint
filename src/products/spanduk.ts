@@ -1,6 +1,8 @@
 import { Product } from '../types';
 
-const WA = (msg: string) => `https://wa.me/628123456789?text=${encodeURIComponent(msg)}`;
+import { WA_NUMBER } from '../lib/constants';
+
+const WA = (msg: string) => `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
 
 export const spanduk: Product = {
   id: 'spanduk',

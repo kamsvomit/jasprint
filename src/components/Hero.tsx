@@ -5,10 +5,9 @@ import { ArrowLeft, Share2, Search, ChevronRight, BookOpen, Calendar, User } fro
 import { Product } from '../types';
 import { ProductData } from '../lib/products';
 import { BlogPost, formatDate } from '../lib/blog';
-import { NavPage, NAV_PAGES } from '../components/Header';
+import { NavPage } from '../components/Header';
 import { NAV_PAGE_CONTENTS } from '../lib/navPages';
-
-const WA_NUMBER = '628123456789';
+import { WA_NUMBER } from '../lib/constants';
 
 interface HeroProps {
   activeTool: Product | null;

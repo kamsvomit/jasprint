@@ -1,13 +1,14 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { getPostBySlug, getAllSlugs, formatDate } from '../../../lib/blog';
+import { getPostBySlug, getAllSlugs, getRecentPosts } from '../../../lib/blog';
+import { getAllProducts } from '../../../lib/products';
+import ClientPage from '../../ClientPage';
+import { SITE_URL } from '../../../lib/constants';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
-
-const SITE_URL = 'https://jasprint.vercel.app';
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -47,7 +48,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function BlogSlugPage({ params }: PageProps) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const [post, products, recentPosts] = await Promise.all([
+    getPostBySlug(slug),
+    getAllProducts(),
+    getRecentPosts(3)
+  ]);
+
   if (!post) notFound();
 
   const articleSchema = {
@@ -77,14 +83,15 @@ export default async function BlogSlugPage({ params }: PageProps) {
     ],
   };
 
-  // Halaman ini tidak dirender ke user — konten muncul via ClientPage pop-up.
-  // Tapi tetap butuh halaman ini agar GSC bisa crawl URL /blog/[slug] dengan metadata yang benar.
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-      {/* Redirect ke home — konten tampil via client-side pop-up */}
-      <meta httpEquiv="refresh" content={`0; url=${SITE_URL}?post=${slug}`} />
+      <ClientPage 
+        initialProducts={products} 
+        initialActiveBlogPost={post}
+        recentPosts={recentPosts}
+      />
     </>
   );
 }

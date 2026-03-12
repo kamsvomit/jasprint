@@ -1,5 +1,7 @@
 import { Product } from '../types';
 
+import { WA_NUMBER } from '../lib/constants';
+
 export const nota: Product = {
   id: 'nota',
   name: 'Cetak Nota / Faktur',
@@ -111,7 +113,7 @@ Dengan nota custom dari jasprint, setiap transaksi jadi lebih tertata dan bisnis
         </div>
 
         <a
-          href="https://wa.me/628123456789?text=Halo%20jasprint!%20Saya%20mau%20tanya%20cetak%20nota%20NCR%20custom%20dong%20%F0%9F%99%8F"
+          href="https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo jasprint! Saya mau tanya cetak nota NCR custom dong 🙏')}"
           target="_blank"
           rel="noopener noreferrer"
           class="w-full flex items-center justify-center gap-2.5 bg-green-500 hover:bg-green-600 active:scale-95 text-white font-black py-3.5 px-4 rounded-xl text-sm transition-all shadow-sm"

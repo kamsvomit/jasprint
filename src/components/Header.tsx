@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Search, Sun, Moon, X, Menu } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { WA_NUMBER, WA_MSG } from '../lib/constants';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -30,8 +31,6 @@ interface HeaderProps {
   onNavPage: (page: NavPage) => void;
 }
 
-const WA_NUMBER = '628123456789';
-const WA_MSG = encodeURIComponent('Halo jasprint! Saya mau konsultasi cetak nih 🙏');
 const ICON_STYLE = { color: '#dc2626', stroke: 'currentColor' };
 
 export default function Header({ onSearch, searchQuery, theme, toggleTheme, onNavPage }: HeaderProps) {
