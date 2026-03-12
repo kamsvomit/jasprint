@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { ChevronDown, HelpCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
+import { WA_NUMBER } from '../lib/constants';
+
 interface FaqItem {
   question: string;
   answer: string;
@@ -84,7 +86,7 @@ export default function Faq() {
         
         <div className="mt-8 p-5 rounded-2xl bg-subtle/50 border border-dashed border-arsenic/20 text-center">
           <p className="text-xs text-secondary font-medium">
-            Punya pertanyaan lain? <a href="#" className="text-red-500 font-bold hover:underline">Tanyakan langsung via WhatsApp</a>, kami siap membantu!
+            Punya pertanyaan lain? <a href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo jasprint! Saya mau tanya soal FAQ ini...')}`} target="_blank" rel="noopener noreferrer" className="text-red-500 font-bold hover:underline">Tanyakan langsung via WhatsApp</a>, kami siap membantu!
           </p>
         </div>
       </div>
