@@ -7,6 +7,9 @@ import ProductGrid from '../components/ProductGrid';
 import Testimonials from '../components/Testimonials';
 import SingleCta from '../components/SingleCta';
 import BlogPreview from '../components/BlogPreview';
+import Process from '../components/Process';
+import WhyUs from '../components/WhyUs';
+import Faq from '../components/Faq';
 import { Product } from '../types';
 import { ProductData } from '../lib/products';
 import { BlogPost } from '../lib/blog';
@@ -31,7 +34,6 @@ export default function ClientPage({
   const [activeTool, setActiveTool] = useState<Product | null>(null);
   const [activeToolData, setActiveToolData] = useState<ProductData | null>(initialActiveTool);
   const [activeBlogPost, setActiveBlogPost] = useState<BlogPost | null>(initialActiveBlogPost);
-  const [activeNavPage, setActiveNavPage] = useState<NavPage | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [lastTool, setLastTool] = useState<ProductData | null>(null);
@@ -75,7 +77,6 @@ export default function ClientPage({
     setActiveTool(null);
     setActiveToolData(null);
     setActiveBlogPost(null);
-    setActiveNavPage(null);
   };
 
   // ── Produk ──
@@ -117,25 +118,6 @@ export default function ClientPage({
     }
   };
 
-  // ── Nav page ──
-  const handleNavPage = (page: NavPage) => {
-    scrollPositionRef.current = window.scrollY;
-
-    // Blog: fetch posts list dan render
-    if (page.id === 'blog') {
-      clearAll();
-      setActiveNavPage(page);
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      window.history.pushState(null, '', '/blog');
-      return;
-    }
-
-    clearAll();
-    setActiveNavPage(page);
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    window.history.pushState(null, '', `/${page.id}`);
-  };
-
   // ── Close / back ──
   const handleClose = () => {
     clearAll();
@@ -148,7 +130,25 @@ export default function ClientPage({
     }
   };
 
-  const isHome = !activeToolData && !activeBlogPost && !activeNavPage && searchQuery === '';
+  const isHome = !activeToolData && !activeBlogPost && searchQuery === '';
+
+  // Handle scroll from query param
+  useEffect(() => {
+    if (isHome) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const scrollId = urlParams.get('scroll');
+      if (scrollId) {
+        setTimeout(() => {
+          const element = document.getElementById(scrollId);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+            // Clean up URL
+            window.history.replaceState(null, '', '/');
+          }
+        }, 100);
+      }
+    }
+  }, [isHome]);
 
   return (
     <div className="min-h-screen flex flex-col bg-arsenic/[0.02] selection:bg-red-500/30">
@@ -157,7 +157,6 @@ export default function ClientPage({
         searchQuery={searchQuery}
         theme={theme}
         toggleTheme={toggleTheme}
-        onNavPage={handleNavPage}
       />
 
       <main
@@ -171,7 +170,6 @@ export default function ClientPage({
             activeTool={activeTool}
             activeToolData={activeToolData}
             activeBlogPost={activeBlogPost}
-            activeNavPage={activeNavPage}
             recentPosts={recentPosts}
             onClose={handleClose}
             totalProducts={initialProducts.length}
@@ -188,15 +186,26 @@ export default function ClientPage({
           {/* 1. Produk — jawab "apa yang dijual?" */}
           <div id="produk"><ProductGrid products={initialProducts} onSelect={handleSelectTool} /></div>
 
-          {/* 2. Social proof — trust */}
+          {/* 2. Proses — edukasi softsell */}
+          <div id="cara-order"><Process /></div>
+
+          {/* 3. Why Us — membangun otoritas & SEO */}
+          <div id="tentang"><WhyUs /></div>
+
+          {/* 4. Social proof — trust */}
           <Testimonials />
 
-          {/* 3. CTA — single, clean */}
+          {/* 5. FAQ — menjawab keraguan & SEO long-tail */}
+          <div id="faq"><Faq /></div>
+
+          {/* 6. CTA — single, clean */}
           <SingleCta />
 
-          {/* 4. Blog preview — konten & SEO */}
+          {/* 7. Blog preview — konten & SEO */}
           {recentPosts.length > 0 && (
-            <BlogPreview posts={recentPosts} onSelectPost={handleSelectBlogPost} />
+            <div id="blog">
+              <BlogPreview posts={recentPosts} onSelectPost={handleSelectBlogPost} />
+            </div>
           )}
 
           {/* Footer */}

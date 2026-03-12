@@ -28,12 +28,11 @@ interface HeaderProps {
   searchQuery: string;
   theme: 'light' | 'dark';
   toggleTheme: () => void;
-  onNavPage: (page: NavPage) => void;
 }
 
 const ICON_STYLE = { color: '#dc2626', stroke: 'currentColor' };
 
-export default function Header({ onSearch, searchQuery, theme, toggleTheme, onNavPage }: HeaderProps) {
+export default function Header({ onSearch, searchQuery, theme, toggleTheme }: HeaderProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -67,7 +66,21 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme, onNa
 
   const handleNavClick = (page: NavPage) => {
     setIsMenuOpen(false);
-    onNavPage(page);
+    
+    // Jika di homepage, coba scroll ke section
+    if (window.location.pathname === '/') {
+      const element = document.getElementById(page.id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+    } else {
+      // Jika tidak di homepage, arahkan ke homepage dengan query scroll
+      window.location.href = `/?scroll=${page.id}`;
+      return;
+    }
+    
+    // onNavPage(page); // Prop dihapus karena navigasi berbasis scroll/anchor
   };
 
   return (

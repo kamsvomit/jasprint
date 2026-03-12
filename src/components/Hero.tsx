@@ -5,15 +5,12 @@ import { ArrowLeft, Share2, Search, ChevronRight, BookOpen, Calendar, User } fro
 import { Product } from '../types';
 import { ProductData } from '../lib/products';
 import { BlogPost, formatDate } from '../lib/blog';
-import { NavPage } from '../components/Header';
-import { NAV_PAGE_CONTENTS } from '../lib/navPages';
 import { WA_NUMBER } from '../lib/constants';
 
 interface HeroProps {
   activeTool: Product | null;
   activeToolData: ProductData | null;
   activeBlogPost: BlogPost | null;
-  activeNavPage: NavPage | null;
   recentPosts: BlogPost[];
   onClose: () => void;
   totalProducts: number;
@@ -41,14 +38,6 @@ function ProductRenderer({ activeTool }: { activeTool: Product | null }) {
   );
 }
 
-function NavPageRenderer({ html }: { html: string }) {
-  const ref = React.useRef<HTMLDivElement>(null);
-  React.useEffect(() => {
-    if (ref.current) ref.current.innerHTML = html;
-  }, [html]);
-  return <div ref={ref} className="pt-5 border-t border-subtle" />;
-}
-
 function BackHeader({ label, onClose, badge }: { label: string; badge?: string; onClose: () => void }) {
   const [isCopied, setIsCopied] = React.useState(false);
   const handleShare = () => {
@@ -73,7 +62,7 @@ function BackHeader({ label, onClose, badge }: { label: string; badge?: string; 
 }
 
 export default function Hero({
-  activeTool, activeToolData, activeBlogPost, activeNavPage, recentPosts,
+  activeTool, activeToolData, activeBlogPost, recentPosts,
   onClose, totalProducts, lastTool, onOpenLastProduct,
   searchQuery, products, onSelectTool, onSelectBlogPost,
 }: HeroProps) {
@@ -116,66 +105,6 @@ export default function Hero({
             </div>
           )}
         </div>
-      </div>
-    );
-  }
-
-  /* ── BLOG LIST (dari nav) ── */
-  if (activeNavPage?.id === 'blog') {
-    return (
-      <div className="app-card">
-        <BackHeader label="Blog" badge="Tips & Info" onClose={onClose} />
-        <h2 className="text-xl font-black text-primary mb-1.5 tracking-tight">Artikel Terbaru</h2>
-        <p className="text-sm text-secondary leading-relaxed mb-5">Tips desain, panduan cetak, dan info percetakan dari tim jasprint.</p>
-        <div className="border-t border-subtle pt-5">
-          {recentPosts.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 space-y-3">
-              <BookOpen className="w-10 h-10 text-arsenic/20" />
-              <p className="text-sm font-bold text-secondary">Belum ada artikel.</p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {recentPosts.map(post => (
-                <button key={post.id} onClick={() => onSelectBlogPost(post)}
-                  className="group w-full flex gap-4 p-4 rounded-2xl category-section hover:shadow-md transition-all text-left">
-                  {post.cover_url ? (
-                    <div className="flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden bg-arsenic/5">
-                      <img src={post.cover_url} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    </div>
-                  ) : (
-                    <div className="flex-shrink-0 w-20 h-20 rounded-xl bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-500/10 dark:to-orange-500/10 flex items-center justify-center">
-                      <BookOpen className="w-6 h-6 text-red-200" />
-                    </div>
-                  )}
-                  <div className="flex flex-col justify-center space-y-1.5 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {post.category && (
-                        <span className="text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-50 dark:bg-red-500/10 px-2 py-0.5 rounded-full">{post.category}</span>
-                      )}
-                      <span className="text-[10px] text-quaternary font-medium">{formatDate(post.published_at)}</span>
-                    </div>
-                    <p className="text-sm font-black text-primary leading-snug group-hover:text-red-600 transition-colors line-clamp-2">{post.title}</p>
-                    {post.excerpt && <p className="text-xs text-secondary leading-relaxed line-clamp-2">{post.excerpt}</p>}
-                  </div>
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  /* ── NAV PAGE (cara-order, faq, tentang) ── */
-  if (activeNavPage) {
-    const content = NAV_PAGE_CONTENTS.find(c => c.id === activeNavPage.id);
-    return (
-      <div className="app-card">
-        <BackHeader label={activeNavPage.label} onClose={onClose} />
-        {content
-          ? <NavPageRenderer html={content.html} />
-          : <p className="text-sm text-secondary pt-5">Konten tidak tersedia.</p>
-        }
       </div>
     );
   }
@@ -277,13 +206,11 @@ export default function Hero({
       </div>
       <div>
         <h2 className="hero-headline mb-3">
-          <span className="hero-headline-line1">Cetak Apapun,</span>
-          <span className="hero-headline-line2"><span className="hero-shimmer-text">Hasil Juara.</span></span>
+          <span className="hero-headline-line1">Bikin Ide Kamu</span>
+          <span className="hero-headline-line2"><span className="hero-shimmer-text">Jadi Nyata.</span></span>
         </h2>
         <p className="text-sm text-secondary font-medium leading-relaxed">
-          Butuh cetak brosur, spanduk, kartu nama, atau sticker?
-          <strong className="text-primary"> jasprint</strong> siap kirim ke seluruh Indonesia —
-          harga jelas, kualitas premium, pesan cukup via WhatsApp.
+          Lagi cari tempat cetak yang hasilnya rapi dan harganya bersahabat? Dari brosur sampai spanduk, tim <strong className="text-primary">jasprint</strong> siap bantu wujudkan kebutuhan kamu dengan sepenuh hati. Yuk, ngobrol santai dulu aja!
         </p>
       </div>
       <div className="flex items-center gap-2 py-2.5 px-3 rounded-xl bg-subtle border border-subtle">
@@ -311,11 +238,11 @@ export default function Hero({
         ))}
       </div>
       <div className="flex flex-col gap-2">
-        <a href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo jasprint! Saya mau konsultasi cetak nih 🙏')}`}
+        <a href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo jasprint! Saya mau tanya-tanya soal cetak nih 🙏')}`}
           target="_blank" rel="noopener noreferrer"
           className="w-full flex items-center justify-center gap-2.5 bg-green-500 hover:bg-green-600 active:scale-95 text-white font-black py-3.5 px-4 rounded-2xl text-sm transition-all shadow-sm">
           <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          Minta Penawaran Harga Sekarang
+          Tanya-tanya Dulu Yuk (Gratis)
         </a>
         <p className="text-[11px] text-quaternary font-medium text-center">
           🔒 Gratis konsultasi · Tanpa komitmen · Respon dalam menit

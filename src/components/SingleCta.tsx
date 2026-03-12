@@ -32,12 +32,12 @@ export default function SingleCta() {
           {/* Headline */}
           <div className="space-y-1.5">
             <p className="text-2xl font-black leading-tight">
-              Siap Cetak? Konsultasi<br />
-              <span className="text-yellow-300">Gratis & Tanpa Komitmen</span>
+              Punya Rencana Cetak?<br />
+              <span className="text-yellow-300">Ngobrol Dulu Aja, Gratis!</span>
             </p>
             <p className="text-sm text-red-100 leading-relaxed">
-              Ceritakan kebutuhan kamu — estimasi harga langsung dikirim.{' '}
-              <strong className="text-white">Tanpa ribet, tanpa antre.</strong>
+              Tim kami siap dengerin ide kamu dan kasih saran terbaik.{' '}
+              <strong className="text-white">Konsultasi santai, tanpa tekanan.</strong>
             </p>
           </div>
 
@@ -59,7 +59,7 @@ export default function SingleCta() {
             className="w-full flex items-center justify-center gap-2.5 bg-white text-red-600 font-black py-4 px-4 rounded-2xl text-sm transition-all hover:bg-yellow-50 active:scale-95 shadow-xl"
           >
             {WA_ICON}
-            Chat WhatsApp — Minta Penawaran Gratis
+            Chat WhatsApp — Konsultasi Gratis
           </a>
 
           <p className="text-xs text-red-200 font-medium text-center">
