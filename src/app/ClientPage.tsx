@@ -7,22 +7,24 @@ import UspSection from '../components/UspSection';
 import ProductGrid from '../components/ProductGrid';
 import HowItWorks from '../components/HowItWorks';
 import SocialProof from '../components/SocialProof';
-import CtaBanner from '../components/CtaBanner';
+import SingleCta from '../components/SingleCta';
 import FAQ from '../components/FAQ';
-import ClosingCta from '../components/ClosingCta';
+import BlogPreview from '../components/BlogPreview';
 import AboutContent from '../components/AboutContent';
 import { Product } from '../types';
 import { ProductData } from '../lib/products';
+import { BlogPost } from '../lib/blog';
 import { ChevronUp } from 'lucide-react';
 
 interface ClientPageProps {
   initialProducts: ProductData[];
   initialActiveTool?: ProductData | null;
+  recentPosts?: BlogPost[];
 }
 
 const WA_NUMBER = '628123456789';
 
-export default function ClientPage({ initialProducts, initialActiveTool = null }: ClientPageProps) {
+export default function ClientPage({ initialProducts, initialActiveTool = null, recentPosts = [] }: ClientPageProps) {
   const [activeTool, setActiveTool] = useState<Product | null>(null);
   const [activeToolData, setActiveToolData] = useState<ProductData | null>(initialActiveTool);
   const [searchQuery, setSearchQuery] = useState('');
@@ -157,14 +159,14 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
           {/* 5. SOCIAL PROOF — Bukti nyata, bangun trust */}
           <div id="testimoni"><SocialProof /></div>
 
-          {/* 6. CTA #2 — Push setelah trust terbangun */}
-          <CtaBanner />
+          {/* 6. CTA — Single, clean, push setelah trust terbangun */}
+          <SingleCta />
 
-          {/* 7. FAQ — Handle objeksi terakhir */}
+          {/* 7. FAQ — Handle objeksi */}
           <div id="faq"><FAQ /></div>
 
-          {/* 8. CLOSING CTA — Final push */}
-          <ClosingCta />
+          {/* 8. BLOG — Konten edukatif, boost SEO */}
+          {recentPosts.length > 0 && <BlogPreview posts={recentPosts} />}
 
           {/* 9. ABOUT — SEO, tidak ganggu konversi */}
           <AboutContent />
