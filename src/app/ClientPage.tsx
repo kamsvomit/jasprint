@@ -209,30 +209,11 @@ export default function ClientPage({
           )}
 
           {/* Footer */}
-          <footer className="px-4 sm:px-5 py-6 border-t border-arsenic/10 space-y-4">
-            <div className="text-center">
-              <p className="text-sm font-black text-arsenic tracking-tight">jasprint</p>
-              <p className="text-[10px] text-arsenic/40 font-medium mt-1 tracking-widest uppercase">
-                Jasa Percetakan Bandung &copy; 2026
-              </p>
-            </div>
-            <div className="flex items-center justify-center gap-3">
-              <span className="text-xs text-arsenic/40 font-medium">Bagikan:</span>
-              <a
-                href={`https://wa.me/?text=${encodeURIComponent(`Percetakan jasprint Bandung — Cetak murah berkualitas! ${SITE_URL}`)}`}
-                target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-50 dark:bg-green-500/10 text-green-600 text-xs font-semibold hover:bg-green-100 transition-colors"
-              >
-                WhatsApp
-              </a>
-              <button
-                onClick={() => navigator.clipboard?.writeText(window.location.href)}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-arsenic/5 text-arsenic/60 text-xs font-semibold hover:bg-arsenic/10 transition-colors"
-              >
-                Salin Link
-              </button>
-            </div>
+          <footer className="px-4 sm:px-5 py-8 mt-4 border-t border-arsenic/8 text-center space-y-1">
+            <p className="text-sm font-black text-primary tracking-tight">jasprint</p>
+            <p className="text-[11px] text-quaternary font-medium">&copy; 2026 · Made with ♥ in Bandung</p>
           </footer>
+
         </>)}
       </main>
 
