@@ -71,8 +71,15 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
       
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.location.href = '/'}>
-          <svg className="w-5 h-5" fill="url(#brand-grad)" viewBox="0 0 24 24">
-            <path d="M19,8l-4,4h3c0,3.3-2.7,6-6,6c-0.7,0-1.3-0.1-1.9-0.4l-1.5,1.5C9.7,19.7,10.8,20,12,20c4.4,0,8-3.6,8-8h3L19,8z M6,12 c0-3.3,2.7-6,6-6c0.7,0,1.3,0.1,1.9,0.4l1.5-1.5C14.3,4.3,13.2,4,12,4c-4.4,0-8,3.6-8,8H1L5,16l4-4H6z" />
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
+            {/* printer body */}
+            <rect x="4" y="8" width="16" height="10" rx="2" fill="url(#brand-grad)"/>
+            {/* paper top */}
+            <rect x="7" y="4" width="10" height="5" rx="1" fill="url(#brand-grad)"/>
+            {/* paper output */}
+            <rect x="7" y="14" width="10" height="5" rx="1" fill="white" opacity="0.85"/>
+            {/* dot */}
+            <circle cx="17" cy="12" r="1.2" fill="white" opacity="0.7"/>
           </svg>
           <h1 className="text-sm font-bold tracking-tight" style={{ background: 'linear-gradient(90deg,#dc2626,#f97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
             Percetakan jasprint Bandung
