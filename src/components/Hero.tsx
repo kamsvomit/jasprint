@@ -11,7 +11,7 @@ interface HeroProps {
   onClose: () => void;
   totalProducts: number;
   lastTool: ProductData | null;
-  onOpenLastTool: () => void;
+  onOpenLastProduct: () => void;
   searchQuery: string;
   products: ProductData[];
   onSelectTool: (prod: ProductData) => void;
@@ -39,7 +39,7 @@ function ProductRenderer({ activeTool }: { activeTool: Product | null }) {
 
 export default function Hero({
   activeTool, activeToolData, onClose, totalProducts,
-  lastTool, onOpenLastTool, searchQuery, products, onSelectTool,
+  lastTool, onOpenLastProduct, searchQuery, products, onSelectTool,
 }: HeroProps) {
   const [isCopied, setIsCopied] = React.useState(false);
 
@@ -148,7 +148,7 @@ export default function Hero({
         {lastTool && lastTool.id !== activeToolData.id && (
           <div className="mt-6 pt-5 border-t border-subtle">
             <p className="text-xs font-bold text-quaternary uppercase tracking-widest mb-2">Terakhir Dilihat</p>
-            <button onClick={onOpenLastTool} className="flex items-center gap-1.5 group">
+            <button onClick={onOpenLastProduct} className="flex items-center gap-1.5 group">
               <ArrowLeft className="w-3.5 h-3.5 text-red-500 group-hover:-translate-x-0.5 transition-transform" />
               <span className="text-sm font-bold text-red-500 group-hover:text-red-600 transition-colors">
                 Kembali ke {lastTool.name}

@@ -43,13 +43,13 @@ export async function generateStaticParams() {
 export default async function Page({ params }: Props) {
   const { slug } = await params;
   const products = await getAllProducts();
-  const initialTool = products.find(p => p.id === slug) || null;
+  const initialProduct = products.find(p => p.id === slug) || null;
   
-  const jsonLd = initialTool ? {
+  const jsonLd = initialProduct ? {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": initialTool.name,
-    "description": initialTool.description,
+    "name": initialProduct.name,
+    "description": initialProduct.description,
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -65,7 +65,7 @@ export default async function Page({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
-      <ClientPage initialProducts={products} initialActiveTool={initialTool} />
+      <ClientPage initialProducts={products} initialActiveTool={initialProduct} />
     </>
   );
 }

@@ -33,8 +33,8 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
 
     const lastId = localStorage.getItem('last_product_id');
     if (lastId) {
-      const tool = initialProducts.find(p => p.id === lastId);
-      if (tool) setLastTool(tool);
+      const prod = initialProducts.find(p => p.id === lastId);
+      if (prod) setLastTool(prod);
     }
 
     let scrollTimeout: NodeJS.Timeout;
@@ -102,8 +102,8 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
     });
     const lastId = localStorage.getItem('last_product_id');
     if (lastId) {
-      const tool = initialProducts.find(p => p.id === lastId);
-      if (tool) setLastTool(tool);
+      const prod = initialProducts.find(p => p.id === lastId);
+      if (prod) setLastTool(prod);
     }
   };
 
@@ -119,7 +119,7 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
       <main
         id="main-container"
         className={`w-full max-w-6xl mx-auto pb-8 px-4 sm:px-8 lg:px-12 ${
-          (activeToolData || searchQuery) ? 'tool-active' : 'space-y-3'
+          (activeToolData || searchQuery) ? 'product-active' : 'space-y-3'
         }`}
       >
         <Hero
@@ -128,7 +128,7 @@ export default function ClientPage({ initialProducts, initialActiveTool = null }
           onClose={handleCloseTool}
           totalProducts={initialProducts.length}
           lastTool={lastTool}
-          onOpenLastTool={() => lastTool && handleSelectTool(lastTool)}
+          onOpenLastProduct={() => lastTool && handleSelectTool(lastTool)}
           searchQuery={searchQuery}
           products={initialProducts}
           onSelectTool={(prod) => {
