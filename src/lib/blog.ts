@@ -46,7 +46,6 @@ async function supabaseFetch<T>(path: string): Promise<T[]> {
       Authorization: `Bearer ${SUPABASE_KEY}`,
       'Content-Type': 'application/json',
     },
-    // @ts-expect-error next-specific fetch option
     next: { revalidate: 60 },
   });
 

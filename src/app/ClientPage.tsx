@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Header, { NavPage } from '../components/Header';
 import Hero from '../components/Hero';
 import ProductGrid from '../components/ProductGrid';
-import SocialProof from '../components/SocialProof';
+import Testimonials from '../components/Testimonials';
 import SingleCta from '../components/SingleCta';
 import BlogPreview from '../components/BlogPreview';
 import { Product } from '../types';
@@ -189,7 +189,7 @@ export default function ClientPage({
           <div id="produk"><ProductGrid products={initialProducts} onSelect={handleSelectTool} /></div>
 
           {/* 2. Social proof — trust */}
-          <SocialProof />
+          <Testimonials />
 
           {/* 3. CTA — single, clean */}
           <SingleCta />
