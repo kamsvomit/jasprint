@@ -1,28 +1,19 @@
 "use client";
 import React from 'react';
-import Link from 'next/link';
 import { BlogPost, formatDate } from '../lib/blog';
 import { ArrowRight, BookOpen } from 'lucide-react';
 
 interface BlogPreviewProps {
   posts: BlogPost[];
+  onSelectPost: (post: BlogPost) => void;
 }
 
-function CategoryBadge({ label }: { label: string }) {
+function PostCard({ post, onSelect }: { post: BlogPost; onSelect: () => void }) {
   return (
-    <span className="inline-block text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-50 dark:bg-red-500/10 px-2 py-0.5 rounded-full">
-      {label}
-    </span>
-  );
-}
-
-function PostCard({ post }: { post: BlogPost }) {
-  return (
-    <Link
-      href={`/blog/${post.slug}`}
-      className="group flex flex-col rounded-2xl category-section overflow-hidden hover:shadow-md transition-all"
+    <button
+      onClick={onSelect}
+      className="group flex flex-col rounded-2xl category-section overflow-hidden hover:shadow-md transition-all text-left w-full"
     >
-      {/* Cover image atau placeholder */}
       {post.cover_url ? (
         <div className="aspect-[16/9] overflow-hidden bg-arsenic/5">
           <img
@@ -37,10 +28,13 @@ function PostCard({ post }: { post: BlogPost }) {
         </div>
       )}
 
-      {/* Content */}
       <div className="p-4 space-y-2 flex-1 flex flex-col">
         <div className="flex items-center justify-between gap-2">
-          {post.category && <CategoryBadge label={post.category} />}
+          {post.category && (
+            <span className="inline-block text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-50 dark:bg-red-500/10 px-2 py-0.5 rounded-full">
+              {post.category}
+            </span>
+          )}
           <span className="text-[10px] text-quaternary font-medium ml-auto">
             {formatDate(post.published_at)}
           </span>
@@ -61,34 +55,25 @@ function PostCard({ post }: { post: BlogPost }) {
           <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
         </div>
       </div>
-    </Link>
+    </button>
   );
 }
 
-export default function BlogPreview({ posts }: BlogPreviewProps) {
+export default function BlogPreview({ posts, onSelectPost }: BlogPreviewProps) {
   if (!posts || posts.length === 0) return null;
 
   return (
     <section className="px-4 sm:px-5 space-y-4">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div className="space-y-0.5">
           <p className="text-[10px] font-black text-red-500 uppercase tracking-widest">Tips & Info</p>
           <p className="text-xl font-black text-primary tracking-tight">Artikel Terbaru</p>
         </div>
-        <Link
-          href="/blog"
-          className="flex items-center gap-1 text-xs font-bold text-red-500 hover:text-red-600 transition-colors"
-        >
-          Lihat semua
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
       </div>
 
-      {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
+          <PostCard key={post.id} post={post} onSelect={() => onSelectPost(post)} />
         ))}
       </div>
     </section>

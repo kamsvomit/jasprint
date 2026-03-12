@@ -27,6 +27,7 @@ const WA_NUMBER = '628123456789';
 export default function ClientPage({ initialProducts, initialActiveTool = null, recentPosts = [] }: ClientPageProps) {
   const [activeTool, setActiveTool] = useState<Product | null>(null);
   const [activeToolData, setActiveToolData] = useState<ProductData | null>(initialActiveTool);
+  const [activeBlogPost, setActiveBlogPost] = useState<BlogPost | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [lastTool, setLastTool] = useState<ProductData | null>(null);
@@ -82,6 +83,7 @@ export default function ClientPage({ initialProducts, initialActiveTool = null, 
     }
 
     setActiveToolData(productData);
+    setActiveBlogPost(null);
     setActiveTool(null);
     localStorage.setItem('last_product_id', productData.id);
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -97,9 +99,41 @@ export default function ClientPage({ initialProducts, initialActiveTool = null, 
     }
   };
 
-  const handleCloseTool = () => {
+  const handleSelectBlogPost = async (post: BlogPost) => {
+    scrollPositionRef.current = window.scrollY;
+    setActiveBlogPost(null);
+    setActiveToolData(null);
+    setActiveTool(null);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.history.pushState(null, '', `/blog/${post.slug}`);
+
+    // Fetch full content kalau belum ada
+    if (!post.content) {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/posts?slug=eq.${encodeURIComponent(post.slug)}&published=eq.true&limit=1`,
+          {
+            headers: {
+              apikey: process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!,
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!}`,
+            },
+          }
+        );
+        const rows = await res.json();
+        if (rows[0]) setActiveBlogPost(rows[0]);
+        else setActiveBlogPost(post);
+      } catch {
+        setActiveBlogPost(post);
+      }
+    } else {
+      setActiveBlogPost(post);
+    }
+  };
+
+  const handleClose = () => {
     setActiveTool(null);
     setActiveToolData(null);
+    setActiveBlogPost(null);
     window.history.pushState(null, '', '/');
     requestAnimationFrame(() => {
       window.scrollTo({ top: scrollPositionRef.current, behavior: 'instant' });
@@ -111,7 +145,7 @@ export default function ClientPage({ initialProducts, initialActiveTool = null, 
     }
   };
 
-  const isHome = !activeToolData && searchQuery === '';
+  const isHome = !activeToolData && !activeBlogPost && searchQuery === '';
 
   return (
     <div className="min-h-screen flex flex-col bg-arsenic/[0.02] selection:bg-red-500/30">
@@ -128,12 +162,12 @@ export default function ClientPage({ initialProducts, initialActiveTool = null, 
           !isHome ? 'pt-0 px-4' : 'space-y-10 pt-2'
         }`}
       >
-        {/* ── Hero — selalu render (handle home/search/product) ── */}
         <div className={isHome ? 'px-4 sm:px-0' : 'px-4 sm:px-0'}>
           <Hero
             activeTool={activeTool}
             activeToolData={activeToolData}
-            onClose={handleCloseTool}
+            activeBlogPost={activeBlogPost}
+            onClose={handleClose}
             totalProducts={initialProducts.length}
             lastTool={lastTool}
             onOpenLastProduct={() => lastTool && handleSelectTool(lastTool)}
@@ -144,34 +178,17 @@ export default function ClientPage({ initialProducts, initialActiveTool = null, 
         </div>
 
         {isHome && (<>
-
-          {/* 1. HERO — Hook, CTA pertama */}
-
-          {/* 2. PRODUK — Jawab "apa yang dijual?" */}
           <div id="produk"><ProductGrid products={initialProducts} onSelect={handleSelectTool} /></div>
-
-          {/* 3. USP — Jawab "kenapa pilih jasprint?" */}
           <UspSection />
-
-          {/* 4. HOW IT WORKS — Jawab "gimana caranya?" */}
           <div id="cara-order"><HowItWorks /></div>
-
-          {/* 5. SOCIAL PROOF — Bukti nyata, bangun trust */}
           <div id="testimoni"><SocialProof /></div>
-
-          {/* 6. CTA — Single, clean, push setelah trust terbangun */}
           <SingleCta />
-
-          {/* 7. FAQ — Handle objeksi */}
           <div id="faq"><FAQ /></div>
-
-          {/* 8. BLOG — Konten edukatif, boost SEO */}
-          {recentPosts.length > 0 && <BlogPreview posts={recentPosts} />}
-
-          {/* 9. ABOUT — SEO, tidak ganggu konversi */}
+          {recentPosts.length > 0 && (
+            <BlogPreview posts={recentPosts} onSelectPost={handleSelectBlogPost} />
+          )}
           <AboutContent />
 
-          {/* ── Footer ── */}
           <footer className="px-4 sm:px-5 py-6 border-t border-arsenic/10 space-y-4">
             <div className="text-center">
               <p className="text-sm font-black text-arsenic tracking-tight">jasprint</p>
@@ -199,11 +216,9 @@ export default function ClientPage({ initialProducts, initialActiveTool = null, 
               </button>
             </div>
           </footer>
-
         </>)}
       </main>
 
-      {/* WA floating — selalu tampil di homepage */}
       {isHome && (
         <a
           href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo jasprint! Saya mau konsultasi cetak nih 🙏')}`}
@@ -216,7 +231,6 @@ export default function ClientPage({ initialProducts, initialActiveTool = null, 
         </a>
       )}
 
-      {/* Scroll to top — muncul setelah scroll, posisi di atas WA button */}
       {showScrollTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

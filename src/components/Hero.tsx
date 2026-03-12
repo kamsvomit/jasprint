@@ -1,13 +1,17 @@
 "use client";
 
 import React from 'react';
-import { ArrowLeft, Share2, Search, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Share2, Search, ChevronRight, BookOpen, Calendar, User } from 'lucide-react';
 import { Product } from '../types';
 import { ProductData } from '../lib/products';
+import { BlogPost, formatDate } from '../lib/blog';
+
+const WA_NUMBER = '628123456789';
 
 interface HeroProps {
   activeTool: Product | null;
   activeToolData: ProductData | null;
+  activeBlogPost: BlogPost | null;
   onClose: () => void;
   totalProducts: number;
   lastTool: ProductData | null;
@@ -38,7 +42,7 @@ function ProductRenderer({ activeTool }: { activeTool: Product | null }) {
 }
 
 export default function Hero({
-  activeTool, activeToolData, onClose, totalProducts,
+  activeTool, activeToolData, activeBlogPost, onClose, totalProducts,
   lastTool, onOpenLastProduct, searchQuery, products, onSelectTool,
 }: HeroProps) {
   const [isCopied, setIsCopied] = React.useState(false);
@@ -52,14 +56,17 @@ export default function Hero({
     : [];
 
   const handleShare = () => {
-    if (!activeToolData) return;
-    const url = `${window.location.origin}/produk/${activeToolData.id}`;
+    const url = activeToolData
+      ? `${window.location.origin}/produk/${activeToolData.id}`
+      : activeBlogPost
+      ? `${window.location.origin}/blog/${activeBlogPost.slug}`
+      : window.location.href;
+
+    const title = activeToolData?.name ?? activeBlogPost?.title ?? 'jasprint';
+    const text = activeToolData?.description ?? activeBlogPost?.excerpt ?? '';
+
     if (navigator.share) {
-      navigator.share({
-        title: `jasprint: ${activeToolData.name}`,
-        text: activeToolData.description,
-        url,
-      }).catch(console.error);
+      navigator.share({ title: `jasprint: ${title}`, text, url }).catch(console.error);
     } else {
       navigator.clipboard.writeText(url);
       setIsCopied(true);
@@ -106,6 +113,100 @@ export default function Hero({
     );
   }
 
+  /* ── ACTIVE BLOG POST ── */
+  if (activeBlogPost) {
+    return (
+      <div className="app-card">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-5">
+          <button onClick={onClose} className="flex items-center gap-1.5 text-red-500 hover:text-red-600 transition-colors">
+            <ArrowLeft className="w-4 h-4" strokeWidth={2.5} />
+            <span className="text-sm font-bold">Kembali</span>
+          </button>
+          <div className="flex items-center gap-2">
+            {activeBlogPost.category && (
+              <span className="text-xs font-semibold text-tertiary px-2 py-0.5 rounded-full border border-subtle">
+                {activeBlogPost.category}
+              </span>
+            )}
+            <button
+              onClick={handleShare}
+              className="p-1.5 hover:bg-subtle rounded-lg transition-colors"
+              title={isCopied ? 'Disalin!' : 'Bagikan'}
+            >
+              <Share2 className="w-4 h-4 text-tertiary" strokeWidth={2} />
+            </button>
+          </div>
+        </div>
+
+        {/* Cover */}
+        {activeBlogPost.cover_url ? (
+          <div className="rounded-2xl overflow-hidden aspect-[16/9] bg-arsenic/5 mb-5">
+            <img src={activeBlogPost.cover_url} alt={activeBlogPost.title} className="w-full h-full object-cover" />
+          </div>
+        ) : null}
+
+        {/* Title & meta */}
+        <h2 className="text-xl font-black text-primary mb-2 tracking-tight leading-tight">
+          {activeBlogPost.title}
+        </h2>
+        <div className="flex flex-wrap items-center gap-3 text-xs text-secondary mb-5">
+          <span className="flex items-center gap-1.5">
+            <Calendar className="w-3.5 h-3.5" />
+            {formatDate(activeBlogPost.published_at)}
+          </span>
+          {activeBlogPost.author && (
+            <span className="flex items-center gap-1.5">
+              <User className="w-3.5 h-3.5" />
+              {activeBlogPost.author}
+            </span>
+          )}
+        </div>
+
+        {/* Content */}
+        {activeBlogPost.content ? (
+          <div className="border-t border-subtle pt-5">
+            <article
+              className="prose prose-sm prose-slate max-w-none
+                prose-headings:font-black prose-headings:text-primary prose-headings:tracking-tight
+                prose-p:text-secondary prose-p:leading-relaxed
+                prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline
+                prose-strong:text-primary prose-strong:font-black
+                prose-li:text-secondary
+                prose-img:rounded-2xl
+                prose-table:text-sm
+                dark:prose-invert"
+              dangerouslySetInnerHTML={{ __html: activeBlogPost.content }}
+            />
+          </div>
+        ) : (
+          <div className="flex items-center justify-center py-10">
+            <div className="w-5 h-5 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+          </div>
+        )}
+
+        {/* CTA */}
+        <div className="mt-8 pt-6 border-t border-subtle">
+          <div className="p-5 rounded-2xl bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-500/10 dark:to-orange-500/5 space-y-3">
+            <p className="text-sm font-black text-primary">Mau cetak sekarang?</p>
+            <p className="text-xs text-secondary leading-relaxed">
+              Tim jasprint siap bantu dari konsultasi sampai produk jadi. Respon cepat via WhatsApp.
+            </p>
+            <a
+              href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo jasprint! Saya mau konsultasi cetak nih 🙏')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 active:scale-95 text-white font-black py-2.5 px-4 rounded-xl text-sm transition-all"
+            >
+              <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Chat WhatsApp Sekarang
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   /* ── ACTIVE PRODUCT ── */
   if (activeToolData) {
     return (
@@ -145,7 +246,6 @@ export default function Hero({
           </div>
         )}
 
-        {/* Related products — anchor links buat SEO crawler */}
         {products && products.filter(p => p.id !== activeToolData.id).length > 0 && (
           <div className="mt-8 pt-6 border-t border-subtle">
             <p className="text-xs font-bold text-quaternary uppercase tracking-widest mb-3">Produk Lainnya</p>
@@ -183,8 +283,6 @@ export default function Hero({
   /* ── HOME ── */
   return (
     <div className="px-1 py-4 space-y-4">
-
-      {/* Badge */}
       <div className="flex items-center gap-2">
         <span className="text-[10px] font-black uppercase tracking-widest text-red-500 border border-red-200 dark:border-red-500/30 px-2 py-0.5 rounded-full">
           Sejak 1990
@@ -194,7 +292,6 @@ export default function Hero({
         </span>
       </div>
 
-      {/* Headline */}
       <div>
         <h2 className="hero-headline mb-3">
           <span className="hero-headline-line1">Cetak Apapun,</span>
@@ -209,7 +306,6 @@ export default function Hero({
         </p>
       </div>
 
-      {/* Social proof bar */}
       <div className="flex items-center gap-2 py-2.5 px-3 rounded-xl bg-subtle border border-subtle">
         <div className="flex -space-x-1.5">
           {['🧑‍💼','👩‍💼','🧑','👨‍🏫','👩'].map((e, i) => (
@@ -222,7 +318,6 @@ export default function Hero({
         </p>
       </div>
 
-      {/* Trust badges */}
       <div className="grid grid-cols-3 gap-2">
         {[
           { icon: '⚡', label: '1–3 Hari', sub: 'Selesai' },
@@ -237,10 +332,9 @@ export default function Hero({
         ))}
       </div>
 
-      {/* CTA */}
       <div className="flex flex-col gap-2">
         <a
-          href="https://wa.me/628123456789?text=Halo%20jasprint!%20Saya%20mau%20konsultasi%20cetak%20nih%20%F0%9F%99%8F"
+          href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo jasprint! Saya mau konsultasi cetak nih 🙏')}`}
           target="_blank"
           rel="noopener noreferrer"
           className="w-full flex items-center justify-center gap-2.5 bg-green-500 hover:bg-green-600 active:scale-95 text-white font-black py-3.5 px-4 rounded-2xl text-sm transition-all shadow-sm"
@@ -252,7 +346,6 @@ export default function Hero({
           🔒 Gratis konsultasi · Tanpa komitmen · Respon dalam menit
         </p>
       </div>
-
     </div>
   );
 }
