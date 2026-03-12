@@ -59,6 +59,52 @@ Fun fact: Orang yang menerima kartu nama fisik 10x lebih mungkin menghubungi kam
           </div>
         </div>
 
+        <div class="rounded-xl border border-subtle overflow-hidden">
+          <div class="px-4 py-2.5 bg-subtle border-b border-subtle">
+            <p class="text-[10px] font-black text-quaternary uppercase tracking-widest">Estimasi Harga</p>
+          </div>
+          <div class="divide-y divide-subtle">
+            
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">Art Carton 260gsm (100 pcs)</p>
+              <p class="text-xs font-black text-red-500">Mulai Rp 65.000</p>
+            </div>
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">Soft Touch + Laminasi (100 pcs)</p>
+              <p class="text-xs font-black text-red-500">Mulai Rp 110.000</p>
+            </div>
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">UV Spot / Foil (100 pcs)</p>
+              <p class="text-xs font-black text-red-500">Mulai Rp 180.000</p>
+            </div>
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">Custom finishing premium</p>
+              <p class="text-xs font-black text-red-500">Hubungi untuk penawaran</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-subtle overflow-hidden">
+          <div class="px-4 py-2.5 bg-subtle border-b border-subtle">
+            <p class="text-[10px] font-black text-quaternary uppercase tracking-widest">FAQ</p>
+          </div>
+          <div class="divide-y divide-subtle">
+            
+            <div class="px-4 py-3">
+              <p class="text-xs font-black text-primary mb-1">Berapa minimum order kartu nama?</p>
+              <p class="text-xs text-secondary leading-relaxed">Minimum 1 box (100 lembar). Bisa juga campuran desain berbeda minimal 100 lembar total.</p>
+            </div>
+            <div class="px-4 py-3">
+              <p class="text-xs font-black text-primary mb-1">Apakah bisa cetak bolak-balik?</p>
+              <p class="text-xs text-secondary leading-relaxed">Bisa! Cetak double side (depan-belakang) tersedia untuk semua pilihan kertas.</p>
+            </div>
+            <div class="px-4 py-3">
+              <p class="text-xs font-black text-primary mb-1">Berapa lama pengerjaan?</p>
+              <p class="text-xs text-secondary leading-relaxed">Standar 2–3 hari kerja. Kartu nama dengan finishing foil atau UV spot 3–4 hari kerja.</p>
+            </div>
+          </div>
+        </div>
+
         <div class="bg-red-50 dark:bg-red-500/10 rounded-xl p-4 border border-red-100 dark:border-red-500/20">
           <p class="text-xs font-black text-red-600 uppercase tracking-widest mb-1">💡 Tips Order</p>
           <p class="text-xs text-red-800 dark:text-red-300 leading-relaxed">File desain PDF/AI dengan bleed 1mm dan resolusi 300 DPI. Pastikan font di-embed atau di-outline ya. Belum ada desain? Hubungi kami!</p>

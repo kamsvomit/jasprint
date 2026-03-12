@@ -59,6 +59,52 @@ Dengan nota custom dari jasprint, setiap transaksi jadi lebih tertata dan bisnis
           </div>
         </div>
 
+        <div class="rounded-xl border border-subtle overflow-hidden">
+          <div class="px-4 py-2.5 bg-subtle border-b border-subtle">
+            <p class="text-[10px] font-black text-quaternary uppercase tracking-widest">Estimasi Harga</p>
+          </div>
+          <div class="divide-y divide-subtle">
+            
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">Nota 2 Rangkap A5 (per buku 50lbr)</p>
+              <p class="text-xs font-black text-red-500">Mulai Rp 25.000/buku</p>
+            </div>
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">Nota 3 Rangkap A5 (per buku 50lbr)</p>
+              <p class="text-xs font-black text-red-500">Mulai Rp 35.000/buku</p>
+            </div>
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">Nota A6 / Kecil (per buku 50lbr)</p>
+              <p class="text-xs font-black text-red-500">Mulai Rp 20.000/buku</p>
+            </div>
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">Custom ukuran / logo warna</p>
+              <p class="text-xs font-black text-red-500">Hubungi untuk penawaran</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-subtle overflow-hidden">
+          <div class="px-4 py-2.5 bg-subtle border-b border-subtle">
+            <p class="text-[10px] font-black text-quaternary uppercase tracking-widest">FAQ</p>
+          </div>
+          <div class="divide-y divide-subtle">
+            
+            <div class="px-4 py-3">
+              <p class="text-xs font-black text-primary mb-1">Berapa minimum order nota?</p>
+              <p class="text-xs text-secondary leading-relaxed">Minimum 5 buku (per buku 50 lembar). Semakin banyak, harga makin hemat.</p>
+            </div>
+            <div class="px-4 py-3">
+              <p class="text-xs font-black text-primary mb-1">Bisa pakai logo toko sendiri?</p>
+              <p class="text-xs text-secondary leading-relaxed">Bisa! Kirim logo dan teks yang ingin dicetak, kami yang atur layoutnya secara gratis.</p>
+            </div>
+            <div class="px-4 py-3">
+              <p class="text-xs font-black text-primary mb-1">Berapa lama pengerjaan?</p>
+              <p class="text-xs text-secondary leading-relaxed">Standar 3–5 hari kerja tergantung jumlah buku yang dipesan.</p>
+            </div>
+          </div>
+        </div>
+
         <div class="bg-red-50 dark:bg-red-500/10 rounded-xl p-4 border border-red-100 dark:border-red-500/20">
           <p class="text-xs font-black text-red-600 uppercase tracking-widest mb-1">💡 Tips Order</p>
           <p class="text-xs text-red-800 dark:text-red-300 leading-relaxed">Siapkan logo dan teks yang ingin dicetak. Tidak perlu desain rumit — cukup beritahu nama toko, alamat, dan nomor HP, tim kami yang atur layoutnya!</p>

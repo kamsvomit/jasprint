@@ -59,6 +59,52 @@ Cara pesan gampang banget — tinggal kirim desain kamu via WhatsApp, tim kami s
           </div>
         </div>
 
+        <div class="rounded-xl border border-subtle overflow-hidden">
+          <div class="px-4 py-2.5 bg-subtle border-b border-subtle">
+            <p class="text-[10px] font-black text-quaternary uppercase tracking-widest">Estimasi Harga</p>
+          </div>
+          <div class="divide-y divide-subtle">
+            
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">Sticker Vinyl A4 (1 lembar)</p>
+              <p class="text-xs font-black text-red-500">Mulai Rp 15.000</p>
+            </div>
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">Sticker Die Cut (per pcs)</p>
+              <p class="text-xs font-black text-red-500">Mulai Rp 2.500/pcs</p>
+            </div>
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">Sticker Label Roll (per meter)</p>
+              <p class="text-xs font-black text-red-500">Mulai Rp 35.000/meter</p>
+            </div>
+            <div class="flex items-center justify-between px-4 py-2.5">
+              <p class="text-xs font-bold text-primary">Custom ukuran / bahan</p>
+              <p class="text-xs font-black text-red-500">Hubungi untuk penawaran</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-subtle overflow-hidden">
+          <div class="px-4 py-2.5 bg-subtle border-b border-subtle">
+            <p class="text-[10px] font-black text-quaternary uppercase tracking-widest">FAQ</p>
+          </div>
+          <div class="divide-y divide-subtle">
+            
+            <div class="px-4 py-3">
+              <p class="text-xs font-black text-primary mb-1">Berapa minimum order sticker?</p>
+              <p class="text-xs text-secondary leading-relaxed">Tidak ada minimum! Bisa cetak dari 1 lembar. Tapi semakin banyak, harga per lembar makin murah.</p>
+            </div>
+            <div class="px-4 py-3">
+              <p class="text-xs font-black text-primary mb-1">Apakah sticker tahan air?</p>
+              <p class="text-xs text-secondary leading-relaxed">Tergantung bahan. Vinyl outdoor tahan air dan UV. Kromo untuk indoor. Konsultasi dulu ya!</p>
+            </div>
+            <div class="px-4 py-3">
+              <p class="text-xs font-black text-primary mb-1">Berapa lama pengerjaan?</p>
+              <p class="text-xs text-secondary leading-relaxed">Standar 1–2 hari kerja. Order sama-day tersedia untuk sticker ukuran kecil dengan syarat tertentu.</p>
+            </div>
+          </div>
+        </div>
+
         <div class="bg-red-50 dark:bg-red-500/10 rounded-xl p-4 border border-red-100 dark:border-red-500/20">
           <p class="text-xs font-black text-red-600 uppercase tracking-widest mb-1">💡 Tips Order</p>
           <p class="text-xs text-red-800 dark:text-red-300 leading-relaxed">Siapkan file desain format PNG/PDF resolusi minimal 300 DPI. Belum punya desain? Tim kami bisa bantu!</p>
