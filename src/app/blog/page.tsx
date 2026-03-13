@@ -58,7 +58,7 @@ export default async function BlogPage() {
                     />
                   </div>
                 ) : (
-                  <div className="flex-shrink-0 w-24 h-24 rounded-xl bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-500/10 dark:to-orange-500/10 flex items-center justify-center">
+                  <div className="flex-shrink-0 w-24 h-24 rounded-xl bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center">
                     <BookOpen className="w-6 h-6 text-red-200" />
                   </div>
                 )}
@@ -67,7 +67,7 @@ export default async function BlogPage() {
                 <div className="flex flex-col justify-center space-y-1.5 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     {post.category && (
-                      <span className="text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-50 dark:bg-red-500/10 px-2 py-0.5 rounded-full">
+                      <span className="text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-50 px-2 py-0.5 rounded-full">
                         {post.category}
                       </span>
                     )}

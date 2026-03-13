@@ -23,7 +23,7 @@ function PostCard({ post, onSelect }: { post: BlogPost; onSelect: () => void }) 
           />
         </div>
       ) : (
-        <div className="aspect-[16/9] bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-500/10 dark:to-orange-500/10 flex items-center justify-center">
+        <div className="aspect-[16/9] bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center">
           <BookOpen className="w-8 h-8 text-red-200" />
         </div>
       )}
@@ -31,7 +31,7 @@ function PostCard({ post, onSelect }: { post: BlogPost; onSelect: () => void }) 
       <div className="p-4 space-y-2 flex-1 flex flex-col">
         <div className="flex items-center justify-between gap-2">
           {post.category && (
-            <span className="inline-block text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-50 dark:bg-red-500/10 px-2 py-0.5 rounded-full">
+            <span className="inline-block text-[10px] font-black uppercase tracking-widest text-red-500 bg-red-50 px-2 py-0.5 rounded-full">
               {post.category}
             </span>
           )}

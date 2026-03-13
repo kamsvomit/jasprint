@@ -37,17 +37,12 @@ export default function ClientPage({
   const [isViewingAllBlogs, setIsViewingAllBlogs] = useState(false);
   const [isViewingAllProducts, setIsViewingAllProducts] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [lastTool, setLastTool] = useState<ProductData | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const loadingIdRef = useRef<string | null>(null);
   const scrollPositionRef = useRef<number>(0);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' || 'light';
-    setTheme(savedTheme);
-    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-
     const lastId = localStorage.getItem('last_product_id');
     if (lastId) {
       const prod = initialProducts.find(p => p.id === lastId);
@@ -67,13 +62,6 @@ export default function ClientPage({
     if (initialActiveTool) handleSelectTool(initialActiveTool);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialActiveTool]);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
-  };
 
   const clearAll = () => {
     setActiveTool(null);
@@ -207,9 +195,9 @@ export default function ClientPage({
               ` : ''}
 
               ${productData.tip ? `
-                <div class="bg-red-50 dark:bg-red-500/10 rounded-xl p-4 border border-red-100 dark:border-red-500/20">
+                <div class="bg-red-50 rounded-xl p-4 border border-red-100">
                   <p class="text-xs font-black text-red-600 uppercase tracking-widest mb-1">💡 Tips Order</p>
-                  <p class="text-xs text-red-800 dark:text-red-300 leading-relaxed">${productData.tip}</p>
+                  <p class="text-xs text-red-800 leading-relaxed">${productData.tip}</p>
                 </div>
               ` : ''}
 
@@ -275,12 +263,10 @@ export default function ClientPage({
   }, [isHome]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-arsenic/[0.02] selection:bg-red-500/30">
+    <div className="min-h-screen flex flex-col bg-white selection:bg-red-500/30">
       <Header
         onSearch={setSearchQuery}
         searchQuery={searchQuery}
-        theme={theme}
-        toggleTheme={toggleTheme}
         onNavClick={handleNavClick}
       />
 
@@ -347,7 +333,7 @@ export default function ClientPage({
       {showScrollTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed z-[100] bottom-6 right-6 w-10 h-10 bg-white dark:bg-arsenic rounded-full shadow-lg flex items-center justify-center text-red-500 hover:text-red-600 hover:shadow-xl transition-all active:scale-95 border border-arsenic/10"
+          className="fixed z-[100] bottom-6 right-6 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-red-500 hover:text-red-600 hover:shadow-xl transition-all active:scale-95 border border-arsenic/10"
         >
           <ChevronUp className="w-5 h-5" />
         </button>

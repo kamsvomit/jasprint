@@ -41,7 +41,7 @@ export default function Faq() {
     <section className="py-12 px-4 sm:px-5">
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-2xl bg-red-50 dark:bg-red-500/10 flex items-center justify-center text-red-500">
+          <div className="w-10 h-10 rounded-2xl bg-red-50 flex items-center justify-center text-red-500">
             <HelpCircle className="w-6 h-6" />
           </div>
           <div>

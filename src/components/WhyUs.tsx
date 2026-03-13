@@ -32,7 +32,7 @@ export default function WhyUs() {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 bg-red-50 dark:bg-red-500/10 px-3 py-1 rounded-full">
+            <div className="inline-flex items-center gap-2 bg-red-50 px-3 py-1 rounded-full">
               <span className="text-[10px] font-black tracking-widest uppercase text-red-600">Mengapa jasprint?</span>
             </div>
             <h2 className="text-3xl font-black tracking-tight text-primary leading-tight">

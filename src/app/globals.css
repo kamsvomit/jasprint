@@ -27,11 +27,11 @@ html {
 }
 
 :root {
-  --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --card-shadow: 0 2px 8px -2px rgba(59, 68, 75, 0.08), 0 4px 12px -4px rgba(59, 68, 75, 0.05);
   --card-bg: #ffffff;
-  --body-bg: #f8f9fa;
-  --border-color: rgba(59, 68, 75, 0.1);
-  --input-bg: rgba(59, 68, 75, 0.04);
+  --body-bg: #ffffff;
+  --border-color: rgba(59, 68, 75, 0.08);
+  --input-bg: rgba(59, 68, 75, 0.03);
   
   /* Semantic text hierarchy - Arsenic Based */
   --text-primary:    #3b444b; /* Arsenic */
@@ -42,32 +42,10 @@ html {
   --text-main: var(--text-primary);
 
   /* Semantic border & bg */
-  --border-subtle: rgba(59, 68, 75, 0.08);
-  --border-normal: rgba(59, 68, 75, 0.15);
-  --bg-subtle:     rgba(59, 68, 75, 0.03);
-  --bg-hover:      rgba(239, 68, 68, 0.05);
-}
-
-.dark {
-  --card-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
-  --card-bg: #212223;
-  --body-bg: #161718;
-  --border-color: rgba(255, 255, 255, 0.08);
-  --input-bg: rgba(255, 255, 255, 0.05);
-  
-  /* Semantic text hierarchy - Dark Mode */
-  --text-primary:    #eceff4; /* Off-white */
-  --text-secondary:  #d8dee9; /* Subtle gray-white */
-  --text-tertiary:   #c0c4cc; /* Visible gray */
-  --text-quaternary: #9099a8; /* High contrast gray */
-  
-  --text-main: var(--text-primary);
-
-  /* Semantic border & bg - dark */
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-normal: rgba(255, 255, 255, 0.1);
-  --bg-subtle:     rgba(255, 255, 255, 0.04);
-  --bg-hover:      rgba(239, 68, 68, 0.08);
+  --border-subtle: rgba(59, 68, 75, 0.06);
+  --border-normal: rgba(59, 68, 75, 0.12);
+  --bg-subtle:     rgba(59, 68, 75, 0.02);
+  --bg-hover:      rgba(239, 68, 68, 0.04);
 }
 
 body {
@@ -84,17 +62,12 @@ body {
 
 /* ── Header ── */
 .header-apple {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
   color: var(--text-main);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(59, 68, 75, 0.05);
   transition: background-color 0.3s ease;
   will-change: transform;
-}
-
-.dark .header-apple {
-  background: rgba(17, 18, 19, 0.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* ── Cards ── */
@@ -127,10 +100,8 @@ body {
 /* ── Scrollbar — halus tapi keliatan ── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(93,94,95,0.2); border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(93,94,95,0.35); }
-.dark ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); }
-.dark ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.22); }
+::-webkit-scrollbar-thumb { background: rgba(59, 68, 75, 0.1); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(59, 68, 75, 0.2); }
 
 /* horizontal scroll rows tetap hide scrollbar */
 .scrollbar-hide::-webkit-scrollbar,

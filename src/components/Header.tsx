@@ -27,14 +27,12 @@ export const NAV_PAGES: NavPage[] = [
 interface HeaderProps {
   onSearch: (query: string) => void;
   searchQuery: string;
-  theme: 'light' | 'dark';
-  toggleTheme: () => void;
   onNavClick?: (pageId: string) => void;
 }
 
 const ICON_STYLE = { color: '#dc2626', stroke: 'currentColor' };
 
-export default function Header({ onSearch, searchQuery, theme, toggleTheme, onNavClick }: HeaderProps) {
+export default function Header({ onSearch, searchQuery, onNavClick }: HeaderProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -128,13 +126,6 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme, onNa
 
         {/* Right side */}
         <div className="flex items-center gap-1 flex-shrink-0">
-          <button onClick={toggleTheme} className="p-1.5 hover:bg-arsenic/5 rounded-md transition-colors">
-            {theme === 'dark'
-              ? <Sun className="w-4 h-4" style={ICON_STYLE} />
-              : <Moon className="w-4 h-4" style={ICON_STYLE} />
-            }
-          </button>
-
           <div className="relative flex items-center">
             <input
               ref={inputRef}
@@ -154,8 +145,6 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme, onNa
               <Search className="w-4 h-4" style={ICON_STYLE} />
             </button>
           </div>
-
-
 
           <button
             onClick={() => setIsMenuOpen(v => !v)}

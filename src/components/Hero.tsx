@@ -182,7 +182,7 @@ export default function Hero({
                 {post.cover_url ? (
                   <img src={post.cover_url} alt="" className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-red-50 dark:bg-red-500/10">
+                  <div className="w-full h-full flex items-center justify-center bg-red-50">
                     <BookOpen className="w-5 h-5 text-red-200" />
                   </div>
                 )}
@@ -267,7 +267,7 @@ export default function Hero({
                   prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline
                   prose-strong:text-[var(--text-primary)] prose-strong:font-black
                   prose-li:text-[var(--text-secondary)] prose-img:rounded-xl sm:prose-img:rounded-2xl
-                  prose-table:text-sm dark:prose-invert"
+                  prose-table:text-sm"
                 dangerouslySetInnerHTML={{ __html: activeBlogPost.content }}
               />
             ) : (
@@ -284,7 +284,7 @@ export default function Hero({
 
         {/* CTA */}
         <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-subtle">
-          <div className="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-500/10 dark:to-orange-500/5 space-y-2.5 sm:space-y-3">
+          <div className="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-gradient-to-br from-red-50 to-orange-50 space-y-2.5 sm:space-y-3">
             <p className="text-sm font-black text-primary">Mau cetak sekarang?</p>
             <p className="text-xs text-secondary leading-relaxed">Tim jasprint siap bantu dari konsultasi sampai produk jadi.</p>
             <a
@@ -333,7 +333,7 @@ export default function Hero({
                   prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline
                   prose-strong:text-[var(--text-primary)] prose-strong:font-black
                   prose-li:text-[var(--text-secondary)] prose-img:rounded-xl sm:prose-img:rounded-2xl
-                  prose-table:text-sm dark:prose-invert"
+                  prose-table:text-sm"
                 dangerouslySetInnerHTML={{ __html: activeToolData.longDescription }}
               />
             ) : (
@@ -352,11 +352,11 @@ export default function Hero({
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {products.filter(p => p.id !== activeToolData.id).map(p => (
                 <a key={p.id} href={`/produk/${p.slug || p.id}`}
-                  className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-subtle bg-subtle hover:border-red-200 hover:bg-red-50 dark:hover:border-red-500/30 dark:hover:bg-red-500/10 transition-colors group">
+                  className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-subtle bg-subtle hover:border-red-200 hover:bg-red-50 transition-colors group">
                   <span className="text-sm leading-none flex-shrink-0">
                     {p.emoji || (p.id==='brosur'?'📄':p.id==='kartu-nama'?'📇':p.id==='sticker'?'🏷️':p.id==='spanduk'?'🚩':p.id==='nota'?'📒':'✉️')}
                   </span>
-                  <span className="text-xs font-bold text-secondary group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors leading-tight truncate">{p.name}</span>
+                  <span className="text-xs font-bold text-secondary group-hover:text-red-600 transition-colors leading-tight truncate">{p.name}</span>
                 </a>
               ))}
             </div>
@@ -379,7 +379,7 @@ export default function Hero({
   return (
     <div className="px-1 py-4 space-y-4">
       <div className="flex items-center gap-2">
-        <span className="text-[10px] font-black uppercase tracking-widest text-red-500 border border-red-200 dark:border-red-500/30 px-2 py-0.5 rounded-full">Sejak 1990</span>
+        <span className="text-[10px] font-black uppercase tracking-widest text-red-500 border border-red-200 px-2 py-0.5 rounded-full">Sejak 1990</span>
         <span className="text-[10px] font-bold text-quaternary uppercase tracking-widest">Terpercaya 30+ tahun</span>
       </div>
       <div>

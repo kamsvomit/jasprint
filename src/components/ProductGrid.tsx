@@ -9,12 +9,12 @@ interface ProductGridProps {
 }
 
 const productVisuals: Record<string, { gradient: string; emoji: string; tag: string; tagColor: string }> = {
-  'brosur':     { gradient: 'from-orange-500 to-amber-400',  emoji: '📄', tag: 'Terlaris', tagColor: 'bg-orange-100 text-orange-600 dark:bg-orange-500/20 dark:text-orange-400' },
-  'spanduk':    { gradient: 'from-sky-500 to-blue-400',      emoji: '🚩', tag: 'Outdoor',  tagColor: 'bg-sky-100 text-sky-600 dark:bg-sky-500/20 dark:text-sky-400' },
-  'kartu-nama': { gradient: 'from-violet-500 to-purple-400', emoji: '📇', tag: 'Branding', tagColor: 'bg-violet-100 text-violet-600 dark:bg-violet-500/20 dark:text-violet-400' },
-  'sticker':    { gradient: 'from-green-500 to-emerald-400', emoji: '🏷️', tag: 'Custom',   tagColor: 'bg-green-100 text-green-600 dark:bg-green-500/20 dark:text-green-400' },
-  'nota':       { gradient: 'from-yellow-500 to-lime-400',   emoji: '📒', tag: 'Kantor',   tagColor: 'bg-yellow-100 text-yellow-600 dark:bg-yellow-500/20 dark:text-yellow-400' },
-  'undangan':   { gradient: 'from-pink-500 to-rose-400',     emoji: '✉️', tag: 'Event',    tagColor: 'bg-pink-100 text-pink-600 dark:bg-pink-500/20 dark:text-pink-400' },
+  'brosur':     { gradient: 'from-orange-500 to-amber-400',  emoji: '📄', tag: 'Terlaris', tagColor: 'bg-orange-100 text-orange-600' },
+  'spanduk':    { gradient: 'from-sky-500 to-blue-400',      emoji: '🚩', tag: 'Outdoor',  tagColor: 'bg-sky-100 text-sky-600' },
+  'kartu-nama': { gradient: 'from-violet-500 to-purple-400', emoji: '📇', tag: 'Branding', tagColor: 'bg-violet-100 text-violet-600' },
+  'sticker':    { gradient: 'from-green-500 to-emerald-400', emoji: '🏷️', tag: 'Custom',   tagColor: 'bg-green-100 text-green-600' },
+  'nota':       { gradient: 'from-yellow-500 to-lime-400',   emoji: '📒', tag: 'Kantor',   tagColor: 'bg-yellow-100 text-yellow-600' },
+  'undangan':   { gradient: 'from-pink-500 to-rose-400',     emoji: '✉️', tag: 'Event',    tagColor: 'bg-pink-100 text-pink-600' },
 };
 const def = { gradient: 'from-gray-500 to-slate-400', emoji: '🖨️', tag: 'Cetak', tagColor: 'bg-gray-100 text-gray-600' };
 
