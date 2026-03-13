@@ -266,11 +266,11 @@ export default function ClientPage({
 
       <main
         id="main-container"
-        className={`w-full max-w-6xl mx-auto pb-12 px-0 sm:px-4 lg:px-8 ${
-          !isHome ? 'pt-0 px-4' : 'space-y-10 pt-2'
+        className={`w-full max-w-6xl mx-auto pb-16 px-0 sm:px-4 lg:px-8 ${
+          !isHome ? 'pt-4 sm:pt-5' : 'space-y-10 pt-2'
         }`}
       >
-        <div className={isHome ? 'px-4 sm:px-0' : 'px-4 sm:px-0'}>
+        <div className={isHome ? 'px-4 sm:px-0' : 'px-3 sm:px-0'}>
           <Hero
             activeTool={activeTool}
             activeToolData={activeToolData}

@@ -24,35 +24,33 @@ interface HeroProps {
 
 function ImageGallery({ images, name }: { images: string[]; name: string }) {
   const [active, setActive] = React.useState(0);
-
   if (images.length === 0) return null;
 
   return (
-    <div className="mb-5">
+    <div>
       {/* Main image */}
-      <div className="relative rounded-2xl overflow-hidden bg-subtle aspect-[4/3] mb-2 group">
+      <div className="relative overflow-hidden bg-subtle aspect-[4/3] sm:aspect-[16/9] group">
         <img
           src={images[active]}
           alt={`${name} - foto ${active + 1}`}
           className="w-full h-full object-cover transition-opacity duration-200"
         />
-        {/* Arrow nav kalau lebih dari 1 foto */}
         {images.length > 1 && (
           <>
             <button
               onClick={() => setActive(i => (i - 1 + images.length) % images.length)}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-opacity"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => setActive(i => (i + 1) % images.length)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-opacity"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
             {/* Dots */}
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+            <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex gap-1">
               {images.map((_, i) => (
                 <button
                   key={i}
@@ -64,14 +62,14 @@ function ImageGallery({ images, name }: { images: string[]; name: string }) {
           </>
         )}
       </div>
-      {/* Thumbnails */}
+      {/* Thumbnails — dengan padding */}
       {images.length > 1 && (
-        <div className="flex gap-1.5 overflow-x-auto pb-0.5">
+        <div className="flex gap-1.5 overflow-x-auto px-5 sm:px-7 pt-2.5 pb-1 scrollbar-hide">
           {images.map((url, i) => (
             <button
               key={i}
               onClick={() => setActive(i)}
-              className={`flex-shrink-0 w-14 h-14 rounded-xl overflow-hidden border-2 transition-all ${i === active ? 'border-red-500' : 'border-transparent opacity-60 hover:opacity-100'}`}
+              className={`flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl overflow-hidden border-2 transition-all ${i === active ? 'border-red-500' : 'border-transparent opacity-50 hover:opacity-100'}`}
             >
               <img src={url} alt="" className="w-full h-full object-cover" />
             </button>
@@ -172,22 +170,46 @@ export default function Hero({
   /* ── BLOG POST ── */
   if (activeBlogPost) {
     return (
-      <div className="app-card">
-        <BackHeader label={activeBlogPost.title} badge={activeBlogPost.category ?? undefined} onClose={onClose} />
+      <div className="app-card overflow-hidden">
+        <div className="px-0">
+          <div className="mb-4 sm:mb-5">
+            <BackHeader label={activeBlogPost.title} badge={activeBlogPost.category ?? undefined} onClose={onClose} />
+          </div>
+        </div>
+
+        {/* Cover image — flush ke tepi card */}
         {activeBlogPost.cover_url && (
-          <div className="rounded-2xl overflow-hidden aspect-[16/9] bg-arsenic/5 mb-5">
-            <img src={activeBlogPost.cover_url} alt={activeBlogPost.title} className="w-full h-full object-cover" />
+          <div className="aspect-[16/9] bg-subtle -mx-5 sm:-mx-7 -mt-0 mb-4 sm:mb-6">
+            <img
+              src={activeBlogPost.cover_url}
+              alt={activeBlogPost.title}
+              className="w-full h-full object-cover"
+            />
           </div>
         )}
-        <h2 className="text-xl font-black text-primary mb-2 tracking-tight leading-tight">{activeBlogPost.title}</h2>
-        <div className="flex flex-wrap items-center gap-3 text-xs text-secondary mb-5">
-          <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" />{formatDate(activeBlogPost.published_at)}</span>
-          {activeBlogPost.author && <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" />{activeBlogPost.author}</span>}
+
+        {/* Title & meta */}
+        <h2 className="text-lg sm:text-xl md:text-2xl font-black text-primary mb-2 tracking-tight leading-tight">
+          {activeBlogPost.title}
+        </h2>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-secondary mb-4 sm:mb-5">
+          <span className="flex items-center gap-1.5"><Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5" />{formatDate(activeBlogPost.published_at)}</span>
+          {activeBlogPost.author && (
+            <span className="flex items-center gap-1.5"><User className="w-3 h-3 sm:w-3.5 sm:h-3.5" />{activeBlogPost.author}</span>
+          )}
         </div>
+
+        {/* Content */}
         {activeBlogPost.content ? (
-          <div className="border-t border-subtle pt-5">
+          <div className="border-t border-subtle pt-4 sm:pt-5">
             <article
-              className="prose prose-sm prose-slate max-w-none prose-headings:font-black prose-headings:text-primary prose-headings:tracking-tight prose-p:text-secondary prose-p:leading-relaxed prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline prose-strong:text-primary prose-strong:font-black prose-li:text-secondary prose-img:rounded-2xl prose-table:text-sm dark:prose-invert"
+              className="prose prose-sm sm:prose-base prose-slate max-w-none
+                prose-headings:font-black prose-headings:text-primary prose-headings:tracking-tight
+                prose-p:text-secondary prose-p:leading-relaxed
+                prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline
+                prose-strong:text-primary prose-strong:font-black
+                prose-li:text-secondary prose-img:rounded-xl sm:prose-img:rounded-2xl
+                prose-table:text-sm dark:prose-invert"
               dangerouslySetInnerHTML={{ __html: activeBlogPost.content }}
             />
           </div>
@@ -196,13 +218,17 @@ export default function Hero({
             <div className="w-5 h-5 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
           </div>
         )}
-        <div className="mt-8 pt-6 border-t border-subtle">
-          <div className="p-5 rounded-2xl bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-500/10 dark:to-orange-500/5 space-y-3">
+
+        {/* CTA */}
+        <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-subtle">
+          <div className="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-500/10 dark:to-orange-500/5 space-y-2.5 sm:space-y-3">
             <p className="text-sm font-black text-primary">Mau cetak sekarang?</p>
             <p className="text-xs text-secondary leading-relaxed">Tim jasprint siap bantu dari konsultasi sampai produk jadi.</p>
-            <a href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo jasprint! Saya mau konsultasi cetak nih 🙏')}`}
+            <a
+              href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Halo jasprint! Saya mau konsultasi cetak nih 🙏')}`}
               target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 active:scale-95 text-white font-black py-2.5 px-4 rounded-xl text-sm transition-all">
+              className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 active:scale-95 text-white font-black py-2.5 px-4 rounded-xl text-sm transition-all"
+            >
               Chat WhatsApp Sekarang
             </a>
           </div>
@@ -214,43 +240,52 @@ export default function Hero({
   /* ── PRODUK ── */
   if (activeToolData) {
     return (
-      <div className="app-card">
+      <div className="app-card overflow-hidden">
         <BackHeader label={activeToolData.name} badge={activeToolData.category} onClose={onClose} />
 
-        {/* Foto produk dari Supabase Storage */}
+        {/* Foto produk — flush ke tepi card */}
         {activeToolData.images && activeToolData.images.length > 0 && (
-          <ImageGallery images={activeToolData.images} name={activeToolData.name} />
+          <div className="-mx-5 sm:-mx-7 mb-4 sm:mb-5">
+            <ImageGallery images={activeToolData.images} name={activeToolData.name} />
+          </div>
         )}
 
-        <h2 className="text-xl font-black text-primary mb-1.5 tracking-tight">{activeToolData.name}</h2>
-        <p className="text-sm text-secondary leading-relaxed mb-5">{activeToolData.description}</p>
+        <h2 className="text-lg sm:text-xl md:text-2xl font-black text-primary mb-1.5 tracking-tight">
+          {activeToolData.name}
+        </h2>
+        <p className="text-sm sm:text-[15px] text-secondary leading-relaxed mb-4 sm:mb-5">
+          {activeToolData.description}
+        </p>
         <ProductRenderer activeTool={activeTool} />
+
         {activeToolData.longDescription && (
-          <div className="mt-8 pt-6 border-t border-subtle">
-            <p className="text-xs font-bold text-quaternary uppercase tracking-widest mb-4">Tentang Produk Ini</p>
-            <div className="space-y-3">
+          <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-subtle">
+            <p className="text-[10px] sm:text-xs font-bold text-quaternary uppercase tracking-widest mb-3 sm:mb-4">Tentang Produk Ini</p>
+            <div className="space-y-2.5 sm:space-y-3">
               {activeToolData.longDescription.split('\n\n').map((para, i) => (
                 <p key={i} className="text-sm text-secondary leading-relaxed">{para}</p>
               ))}
             </div>
           </div>
         )}
+
         {products && products.filter(p => p.id !== activeToolData.id).length > 0 && (
-          <div className="mt-8 pt-6 border-t border-subtle">
-            <p className="text-xs font-bold text-quaternary uppercase tracking-widest mb-3">Produk Lainnya</p>
-            <div className="grid grid-cols-2 gap-2">
+          <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-subtle">
+            <p className="text-[10px] sm:text-xs font-bold text-quaternary uppercase tracking-widest mb-3">Produk Lainnya</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {products.filter(p => p.id !== activeToolData.id).map(p => (
-                <a key={p.id} href={`/produk/${p.id}`}
+                <a key={p.id} href={`/produk/${p.slug || p.id}`}
                   className="flex items-center gap-2 px-3 py-2.5 rounded-xl border border-subtle bg-subtle hover:border-red-200 hover:bg-red-50 dark:hover:border-red-500/30 dark:hover:bg-red-500/10 transition-colors group">
-                  <span className="text-sm leading-none">
-                    {p.id==='brosur'?'📄':p.id==='kartu-nama'?'📇':p.id==='sticker'?'🏷️':p.id==='spanduk'?'🚩':p.id==='nota'?'📒':'✉️'}
+                  <span className="text-sm leading-none flex-shrink-0">
+                    {p.emoji || (p.id==='brosur'?'📄':p.id==='kartu-nama'?'📇':p.id==='sticker'?'🏷️':p.id==='spanduk'?'🚩':p.id==='nota'?'📒':'✉️')}
                   </span>
-                  <span className="text-xs font-bold text-secondary group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors leading-tight">{p.name}</span>
+                  <span className="text-xs font-bold text-secondary group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors leading-tight truncate">{p.name}</span>
                 </a>
               ))}
             </div>
           </div>
         )}
+
         {lastTool && lastTool.id !== activeToolData.id && (
           <div className="mt-4 pt-4 border-t border-subtle">
             <button onClick={onOpenLastProduct} className="flex items-center gap-1.5 group">
