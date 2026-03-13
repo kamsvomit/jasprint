@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import AdminShell from '../AdminShell';
+import ImageUploader from '../ImageUploader';
 import {
   getProducts, createProduct, updateProduct, deleteProduct,
   type AdminProduct, type ProductSpec, type ProductPrice, type ProductFaq,
@@ -30,6 +31,7 @@ const emptyProduct = (): Omit<AdminProduct, 'id' | 'created_at' | 'updated_at'> 
   gradient: GRADIENTS[0],
   is_active: true,
   sort_order: 99,
+  images: [],
   specs: [],
   features: [],
   prices: [],
@@ -81,6 +83,7 @@ export default function ProdukPage() {
       gradient: prod.gradient,
       is_active: prod.is_active,
       sort_order: prod.sort_order,
+      images: prod.images ?? [],
       specs: prod.specs ?? [],
       features: prod.features ?? [],
       prices: prod.prices ?? [],
@@ -336,6 +339,21 @@ export default function ProdukPage() {
                     ))}
                   </div>
                 </div>
+              </div>
+
+              {/* Foto Produk */}
+              <div>
+                <label className="block text-xs font-black text-white/40 uppercase tracking-widest mb-1.5">
+                  Foto Produk <span className="text-white/20 font-normal normal-case tracking-normal">· Foto pertama jadi cover · Maks 5 foto</span>
+                </label>
+                <ImageUploader
+                  bucket="products"
+                  folder={form.slug || 'produk'}
+                  multiple
+                  maxFiles={5}
+                  value={form.images}
+                  onChange={imgs => setForm(f => ({ ...f, images: imgs }))}
+                />
               </div>
 
               {/* Specs */}

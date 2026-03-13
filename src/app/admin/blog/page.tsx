@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import AdminShell from '../AdminShell';
+import ImageUploader from '../ImageUploader';
 import { getPosts, createPost, updatePost, deletePost, type AdminPost } from '../../../lib/supabase-admin';
 
 const BLOG_CATEGORIES = ['Tips Cetak', 'Inspirasi Desain', 'Promo', 'Berita', 'Tutorial', 'Lainnya'];
@@ -277,18 +278,15 @@ export default function BlogPage() {
                 <div className="p-5 space-y-4">
                   {/* Cover */}
                   <div>
-                    <label className="block text-xs font-black text-white/40 uppercase tracking-widest mb-1.5">URL Gambar Cover</label>
-                    <input
-                      value={form.cover_url ?? ''}
-                      onChange={e => setForm(f => ({ ...f, cover_url: e.target.value }))}
-                      placeholder="https://..."
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-red-500/50 transition-all"
+                    <label className="block text-xs font-black text-white/40 uppercase tracking-widest mb-1.5">Foto Cover Artikel</label>
+                    <ImageUploader
+                      bucket="blog"
+                      folder={form.slug || 'artikel'}
+                      multiple={false}
+                      maxFiles={1}
+                      value={form.cover_url ? [form.cover_url] : []}
+                      onChange={urls => setForm(f => ({ ...f, cover_url: urls[0] ?? '' }))}
                     />
-                    {form.cover_url && (
-                      <div className="mt-2 h-32 rounded-xl overflow-hidden bg-white/5">
-                        <img src={form.cover_url} alt="" className="w-full h-full object-cover" />
-                      </div>
-                    )}
                   </div>
 
                   {/* Title */}
