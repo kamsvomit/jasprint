@@ -262,11 +262,11 @@ export default function Hero({
             {/<[a-z][\s\S]*>/i.test(activeBlogPost.content) || activeBlogPost.content.includes('</') ? (
               <article
                 className="prose prose-sm sm:prose-base prose-slate max-w-none
-                  prose-headings:font-black prose-headings:text-primary prose-headings:tracking-tight
-                  prose-p:text-secondary prose-p:leading-relaxed
+                  prose-headings:font-black prose-headings:text-[var(--text-primary)] prose-headings:tracking-tight
+                  prose-p:text-[var(--text-secondary)] prose-p:leading-relaxed
                   prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline
-                  prose-strong:text-primary prose-strong:font-black
-                  prose-li:text-secondary prose-img:rounded-xl sm:prose-img:rounded-2xl
+                  prose-strong:text-[var(--text-primary)] prose-strong:font-black
+                  prose-li:text-[var(--text-secondary)] prose-img:rounded-xl sm:prose-img:rounded-2xl
                   prose-table:text-sm dark:prose-invert"
                 dangerouslySetInnerHTML={{ __html: activeBlogPost.content }}
               />
@@ -323,16 +323,16 @@ export default function Hero({
 
         {activeToolData.longDescription && (
           <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-subtle">
-            <p className="text-[10px] sm:text-xs font-bold text-quaternary uppercase tracking-widest mb-3 sm:mb-4">Tentang Produk Ini</p>
+            <p className="text-[10px] sm:text-xs font-black text-tertiary uppercase tracking-widest mb-3 sm:mb-4">Tentang Produk Ini</p>
             
             {/<[a-z][\s\S]*>/i.test(activeToolData.longDescription) || activeToolData.longDescription.includes('</') ? (
               <article
                 className="prose prose-sm sm:prose-base prose-slate max-w-none
-                  prose-headings:font-black prose-headings:text-primary prose-headings:tracking-tight
-                  prose-p:text-secondary prose-p:leading-relaxed
+                  prose-headings:font-black prose-headings:text-[var(--text-primary)] prose-headings:tracking-tight
+                  prose-p:text-[var(--text-secondary)] prose-p:leading-relaxed
                   prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline
-                  prose-strong:text-primary prose-strong:font-black
-                  prose-li:text-secondary prose-img:rounded-xl sm:prose-img:rounded-2xl
+                  prose-strong:text-[var(--text-primary)] prose-strong:font-black
+                  prose-li:text-[var(--text-secondary)] prose-img:rounded-xl sm:prose-img:rounded-2xl
                   prose-table:text-sm dark:prose-invert"
                 dangerouslySetInnerHTML={{ __html: activeToolData.longDescription }}
               />

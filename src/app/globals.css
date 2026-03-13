@@ -40,19 +40,19 @@ html {
 :root {
   --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   --card-bg: #ffffff;
-  --body-bg: rgba(93, 94, 95, 0.02);
-  --border-color: rgba(93, 94, 95, 0.2);
-  --input-bg: rgba(93, 94, 95, 0.04);
-  --text-main: #3d3e3f;
+  --body-bg: #f8f9fa;
+  --border-color: rgba(93, 94, 95, 0.15);
+  --input-bg: rgba(93, 94, 95, 0.05);
+  --text-main: #1a1b1c;
 
-  /* Semantic text hierarchy */
-  --text-primary:    #3d3e3f;
-  --text-secondary:  #5a5b5c;
-  --text-tertiary:   #7a7b7c;
-  --text-quaternary: #9a9b9c;
+  /* Semantic text hierarchy - Improved contrast for Light Mode */
+  --text-primary:    #111827; /* gray-900 */
+  --text-secondary:  #374151; /* gray-700 */
+  --text-tertiary:   #374151; /* gray-700 */
+  --text-quaternary: #4b5563; /* gray-600 */
 
   /* Semantic border & bg */
-  --border-subtle: rgba(93, 94, 95, 0.12);
+  --border-subtle: rgba(93, 94, 95, 0.1);
   --border-normal: rgba(93, 94, 95, 0.2);
   --bg-subtle:     rgba(93, 94, 95, 0.04);
   --bg-hover:      rgba(239, 68, 68, 0.05);
