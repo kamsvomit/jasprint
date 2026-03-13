@@ -105,47 +105,11 @@ function mapProduct(raw: RawProduct): ProductData {
   };
 }
 
-async function getStaticProducts(): Promise<ProductData[]> {
-  // Fallback: baca dari file-file produk statis
-  const files = ['brosur', 'kartu-nama', 'sticker', 'spanduk', 'nota', 'undangan'];
-  const products: ProductData[] = [];
-
-  for (const file of files) {
-    try {
-      const mod = await import(`../products/${file}`);
-      const prod = mod.default || mod[Object.keys(mod)[0]];
-      if (prod && prod.id && prod.name) {
-        products.push({
-          id: prod.id,
-          slug: prod.id,
-          name: prod.name,
-          description: prod.description,
-          longDescription: prod.longDescription,
-          category: prod.category,
-          emoji: '🖨️',
-          tag: 'Cetak',
-          gradient: 'from-gray-500 to-slate-400',
-          isActive: true,
-          sortOrder: 99,
-          images: [],
-          specs: [],
-          features: [],
-          prices: [],
-          faqs: [],
-          filename: file,
-        });
-      }
-    } catch {}
-  }
-  return products;
-}
-
 export async function getAllProducts(): Promise<ProductData[]> {
   const rows = await fetchFromSupabase<RawProduct>(
     'products?select=*&is_active=eq.true&order=sort_order.asc'
   );
-  if (rows.length > 0) return rows.map(mapProduct);
-  return getStaticProducts();
+  return rows.map(mapProduct);
 }
 
 export async function getProductBySlug(slug: string): Promise<ProductData | null> {
@@ -153,6 +117,5 @@ export async function getProductBySlug(slug: string): Promise<ProductData | null
     `products?slug=eq.${encodeURIComponent(slug)}&is_active=eq.true&limit=1`
   );
   if (rows.length > 0) return mapProduct(rows[0]);
-  const all = await getStaticProducts();
-  return all.find(p => p.slug === slug || p.id === slug) ?? null;
+  return null;
 }

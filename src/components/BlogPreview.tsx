@@ -69,13 +69,6 @@ export default function BlogPreview({ posts, onSelectPost }: BlogPreviewProps) {
           <p className="text-[10px] font-black text-red-500 uppercase tracking-widest">Tips & Info</p>
           <p className="text-xl font-black text-primary tracking-tight">Artikel Terbaru</p>
         </div>
-        <a 
-          href="/blog" 
-          className="flex items-center gap-1.5 text-xs font-bold text-secondary hover:text-red-500 transition-colors group"
-        >
-          Lihat Semua
-          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-        </a>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">

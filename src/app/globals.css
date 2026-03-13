@@ -105,11 +105,6 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* ── Product active state ── */
-#main-container.product-active {
-  padding-top: 0.75rem !important;
-}
-
 /* ── Cards ── */
 :root {
   --card-px: clamp(1.25rem, 5vw, 1.75rem);
@@ -119,7 +114,7 @@ body {
 .app-card {
   background: var(--card-bg);
   border-radius: 1.25rem;
-  padding: var(--card-px) var(--card-px) var(--card-py);
+  padding: var(--card-px);
   border: 1px solid var(--border-color);
   box-shadow: var(--card-shadow);
 }

@@ -1,18 +1,18 @@
 import React from 'react';
 import { getAllProducts } from '../lib/products';
-import { getRecentPosts } from '../lib/blog';
+import { getAllPosts } from '../lib/blog';
 import ClientPage from './ClientPage';
 
 export default async function Page() {
-  const [products, recentPosts] = await Promise.all([
+  const [products, allPosts] = await Promise.all([
     getAllProducts(),
-    getRecentPosts(3),
+    getAllPosts(),
   ]);
 
   return (
     <ClientPage
       initialProducts={products}
-      recentPosts={recentPosts}
+      recentPosts={allPosts}
     />
   );
 }

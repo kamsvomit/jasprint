@@ -11,6 +11,8 @@ interface HeroProps {
   activeTool: Product | null;
   activeToolData: ProductData | null;
   activeBlogPost: BlogPost | null;
+  showBlogList?: boolean;
+  showProductList?: boolean;
   recentPosts: BlogPost[];
   onClose: () => void;
   totalProducts: number;
@@ -120,7 +122,7 @@ function BackHeader({ label, onClose, badge }: { label: string; badge?: string; 
 }
 
 export default function Hero({
-  activeTool, activeToolData, activeBlogPost, recentPosts,
+  activeTool, activeToolData, activeBlogPost, showBlogList, showProductList, recentPosts,
   onClose, totalProducts, lastTool, onOpenLastProduct,
   searchQuery, products, onSelectTool, onSelectBlogPost,
 }: HeroProps) {
@@ -167,15 +169,69 @@ export default function Hero({
     );
   }
 
+  /* ── BLOG LIST ── */
+  if (showBlogList) {
+    return (
+      <div className="app-card">
+        <BackHeader label="Semua Artikel" onClose={onClose} />
+        <div className="space-y-1 max-h-[65vh] overflow-y-auto pr-1 scrollbar-thin">
+          {recentPosts.map(post => (
+            <button key={post.id} onClick={() => onSelectBlogPost(post)}
+              className="w-full flex items-center gap-4 px-3 py-3 rounded-xl hover:bg-subtle transition-colors group text-left">
+              <div className="w-12 h-12 rounded-lg overflow-hidden bg-subtle flex-shrink-0">
+                {post.cover_url ? (
+                  <img src={post.cover_url} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-red-50 dark:bg-red-500/10">
+                    <BookOpen className="w-5 h-5 text-red-200" />
+                  </div>
+                )}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-bold text-primary group-hover:text-red-600 transition-colors line-clamp-1">{post.title}</p>
+                <p className="text-[10px] text-tertiary mt-0.5 uppercase tracking-widest font-black">{post.category || 'Tips & Info'}</p>
+              </div>
+              <ChevronRight className="w-4 h-4 text-quaternary group-hover:text-red-400 transition-colors flex-shrink-0" />
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  /* ── PRODUCT LIST ── */
+  if (showProductList) {
+    return (
+      <div className="app-card">
+        <BackHeader label="Semua Produk" onClose={onClose} />
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[65vh] overflow-y-auto pr-1 scrollbar-thin">
+          {products.map(prod => (
+            <button key={prod.id} onClick={() => onSelectTool(prod)}
+              className="group text-left rounded-2xl overflow-hidden category-section hover:shadow-md active:scale-95 transition-all duration-200"
+            >
+              <div className={`h-16 bg-gradient-to-br ${prod.gradient || 'from-gray-500 to-slate-400'} flex items-center justify-center`}>
+                <span className="text-2xl group-hover:scale-110 transition-transform duration-200">{prod.emoji || '🛍️'}</span>
+              </div>
+              <div className="p-3 space-y-1">
+                <p className="text-xs font-black text-primary leading-tight group-hover:text-red-600 transition-colors truncate">{prod.name}</p>
+                <p className="text-[10px] text-tertiary uppercase tracking-widest font-bold">{prod.category}</p>
+                <div className="flex items-center gap-1 pt-1">
+                  <span className="text-[9px] font-black text-red-500">Detail</span>
+                  <ChevronRight className="w-2.5 h-2.5 text-red-400 group-hover:translate-x-0.5 transition-transform" />
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   /* ── BLOG POST ── */
   if (activeBlogPost) {
     return (
       <div className="app-card overflow-hidden">
-        <div className="px-0">
-          <div className="mb-4 sm:mb-5">
-            <BackHeader label={activeBlogPost.title} badge={activeBlogPost.category ?? undefined} onClose={onClose} />
-          </div>
-        </div>
+        <BackHeader label={activeBlogPost.title} badge={activeBlogPost.category ?? undefined} onClose={onClose} />
 
         {/* Cover image — flush ke tepi card */}
         {activeBlogPost.cover_url && (

@@ -34,6 +34,8 @@ export default function ClientPage({
   const [activeTool, setActiveTool] = useState<Product | null>(null);
   const [activeToolData, setActiveToolData] = useState<ProductData | null>(initialActiveTool);
   const [activeBlogPost, setActiveBlogPost] = useState<BlogPost | null>(initialActiveBlogPost);
+  const [isViewingAllBlogs, setIsViewingAllBlogs] = useState(false);
+  const [isViewingAllProducts, setIsViewingAllProducts] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [lastTool, setLastTool] = useState<ProductData | null>(null);
@@ -77,6 +79,33 @@ export default function ClientPage({
     setActiveTool(null);
     setActiveToolData(null);
     setActiveBlogPost(null);
+    setIsViewingAllBlogs(false);
+    setIsViewingAllProducts(false);
+  };
+
+  // ── Nav Click ──
+  const handleNavClick = (pageId: string) => {
+    if (pageId === 'blog') {
+      scrollPositionRef.current = window.scrollY;
+      clearAll();
+      setIsViewingAllBlogs(true);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      return;
+    }
+
+    if (pageId === 'produk') {
+      scrollPositionRef.current = window.scrollY;
+      clearAll();
+      setIsViewingAllProducts(true);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      return;
+    }
+
+    // Default scroll behavior for others
+    const element = document.getElementById(pageId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   // ── Produk ──
@@ -196,16 +225,6 @@ export default function ClientPage({
       if (loadingIdRef.current === productData.id) setActiveTool(syntheticProduct);
       return;
     }
-
-    // Produk lama dari file .ts statis
-    try {
-      const module = await import(`../products/${productData.filename}`);
-      if (loadingIdRef.current !== productData.id) return;
-      const prod = module.default || module[Object.keys(module)[0]];
-      setActiveTool(prod);
-    } catch (e) {
-      if (loadingIdRef.current === productData.id) console.error('Failed to load product:', e);
-    }
   };
 
   // ── Blog post ──
@@ -262,19 +281,23 @@ export default function ClientPage({
         searchQuery={searchQuery}
         theme={theme}
         toggleTheme={toggleTheme}
+        onNavClick={handleNavClick}
       />
 
       <main
         id="main-container"
-        className={`w-full max-w-6xl mx-auto pb-16 px-0 sm:px-4 lg:px-8 ${
-          !isHome ? 'pt-4 sm:pt-5' : 'space-y-10 pt-2'
-        }`}
+        className="w-full max-w-6xl mx-auto"
       >
-        <div className={isHome ? 'px-4 sm:px-0' : 'px-3 sm:px-0'}>
+        <div className={!isHome || isViewingAllBlogs || isViewingAllProducts 
+          ? "p-3 sm:p-5" 
+          : "pt-2 pb-16 px-4 sm:px-4 lg:px-8 space-y-10"
+        }>
           <Hero
             activeTool={activeTool}
             activeToolData={activeToolData}
             activeBlogPost={activeBlogPost}
+            showBlogList={isViewingAllBlogs}
+            showProductList={isViewingAllProducts}
             recentPosts={recentPosts}
             onClose={handleClose}
             totalProducts={initialProducts.length}
@@ -285,41 +308,40 @@ export default function ClientPage({
             onSelectTool={(prod) => { handleSelectTool(prod); setSearchQuery(''); }}
             onSelectBlogPost={handleSelectBlogPost}
           />
+
+          {isHome && !isViewingAllBlogs && !isViewingAllProducts && (<>
+            {/* 1. Produk — jawab "apa yang dijual?" */}
+            <div id="produk"><ProductGrid products={initialProducts} onSelect={handleSelectTool} /></div>
+
+            {/* 2. Proses — edukasi softsell */}
+            <div id="cara-order"><Process /></div>
+
+            {/* 3. Why Us — membangun otoritas & SEO */}
+            <div id="tentang"><WhyUs /></div>
+
+            {/* 4. Social proof — trust */}
+            <Testimonials />
+
+            {/* 5. FAQ — menjawab keraguan & SEO long-tail */}
+            <div id="faq"><Faq /></div>
+
+            {/* 6. CTA — single, clean */}
+            <SingleCta />
+
+            {/* 7. Blog preview — konten & SEO */}
+            {recentPosts.length > 0 && (
+              <div id="blog">
+                <BlogPreview posts={recentPosts.slice(0, 6)} onSelectPost={handleSelectBlogPost} />
+              </div>
+            )}
+
+            {/* Footer */}
+            <footer className="py-8 mt-4 border-t border-arsenic/8 text-center space-y-1">
+              <p className="text-sm font-black text-primary tracking-tight">jasprint</p>
+              <p className="text-[11px] text-quaternary font-medium">&copy; 2026 · Made with ♥ in Bandung</p>
+            </footer>
+          </>)}
         </div>
-
-        {isHome && (<>
-          {/* 1. Produk — jawab "apa yang dijual?" */}
-          <div id="produk"><ProductGrid products={initialProducts} onSelect={handleSelectTool} /></div>
-
-          {/* 2. Proses — edukasi softsell */}
-          <div id="cara-order"><Process /></div>
-
-          {/* 3. Why Us — membangun otoritas & SEO */}
-          <div id="tentang"><WhyUs /></div>
-
-          {/* 4. Social proof — trust */}
-          <Testimonials />
-
-          {/* 5. FAQ — menjawab keraguan & SEO long-tail */}
-          <div id="faq"><Faq /></div>
-
-          {/* 6. CTA — single, clean */}
-          <SingleCta />
-
-          {/* 7. Blog preview — konten & SEO */}
-          {recentPosts.length > 0 && (
-            <div id="blog">
-              <BlogPreview posts={recentPosts} onSelectPost={handleSelectBlogPost} />
-            </div>
-          )}
-
-          {/* Footer */}
-          <footer className="px-4 sm:px-5 py-8 mt-4 border-t border-arsenic/8 text-center space-y-1">
-            <p className="text-sm font-black text-primary tracking-tight">jasprint</p>
-            <p className="text-[11px] text-quaternary font-medium">&copy; 2026 · Made with ♥ in Bandung</p>
-          </footer>
-
-        </>)}
       </main>
 
       {showScrollTop && (
