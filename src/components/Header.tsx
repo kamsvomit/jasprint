@@ -67,6 +67,12 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
   const handleNavClick = (page: NavPage) => {
     setIsMenuOpen(false);
     
+    // Jika navigasi ke blog, arahkan ke halaman blog penuh
+    if (page.id === 'blog') {
+      window.location.href = '/blog';
+      return;
+    }
+
     // Jika di homepage, coba scroll ke section
     if (window.location.pathname === '/') {
       const element = document.getElementById(page.id);
@@ -79,8 +85,6 @@ export default function Header({ onSearch, searchQuery, theme, toggleTheme }: He
       window.location.href = `/?scroll=${page.id}`;
       return;
     }
-    
-    // onNavPage(page); // Prop dihapus karena navigasi berbasis scroll/anchor
   };
 
   return (

@@ -272,21 +272,49 @@ export default function BlogPage() {
 
             <div className="max-h-[75vh] overflow-auto">
               {previewMode ? (
-                /* Preview */
-                <div className="p-6">
-                  {form.cover_url && (
-                    <div className="rounded-2xl overflow-hidden aspect-video mb-5 bg-white/5">
-                      <img src={form.cover_url} alt="" className="w-full h-full object-cover" />
+                /* Preview — Matches Hero.tsx styling */
+                <div className="p-6 sm:p-8 bg-[#0f1011]">
+                  <div className="max-w-2xl mx-auto">
+                    {form.cover_url && (
+                      <div className="rounded-2xl overflow-hidden aspect-[16/9] mb-6 bg-white/5 border border-white/10">
+                        <img src={form.cover_url} alt="" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                    <div className="flex items-center gap-3 mb-4">
+                      {form.category && (
+                        <span className="text-[10px] font-black text-red-400 bg-red-500/10 px-2.5 py-1 rounded-full uppercase tracking-widest">
+                          {form.category}
+                        </span>
+                      )}
+                      <span className="text-xs text-white/30 font-medium">Oleh {form.author}</span>
                     </div>
-                  )}
-                  <div className="flex items-center gap-2 mb-3">
-                    {form.category && <span className="text-xs font-bold text-red-400 bg-red-500/10 px-2 py-1 rounded-full">{form.category}</span>}
-                    <span className="text-xs text-white/30">{form.author}</span>
-                  </div>
-                  <h1 className="text-white text-2xl font-black mb-3">{form.title || 'Judul artikel...'}</h1>
-                  {form.excerpt && <p className="text-white/60 text-sm italic mb-4 border-l-2 border-red-500/30 pl-4">{form.excerpt}</p>}
-                  <div className="text-white/60 text-sm leading-relaxed whitespace-pre-wrap border-t border-white/[0.06] pt-4">
-                    {form.content || 'Konten artikel akan ditampilkan di sini...'}
+                    <h1 className="text-white text-2xl sm:text-3xl font-black mb-4 tracking-tight leading-tight">
+                      {form.title || 'Judul artikel...'}
+                    </h1>
+                    {form.excerpt && (
+                      <p className="text-white/50 text-sm sm:text-base italic mb-6 border-l-2 border-red-500/30 pl-4 leading-relaxed">
+                        {form.excerpt}
+                      </p>
+                    )}
+                    
+                    <div className="border-t border-white/[0.06] pt-6">
+                      {/<[a-z][\s\S]*>/i.test(form.content) ? (
+                        <article
+                          className="prose prose-sm sm:prose-base prose-invert max-w-none
+                            prose-headings:font-black prose-headings:text-white prose-headings:tracking-tight
+                            prose-p:text-white/60 prose-p:leading-relaxed
+                            prose-a:text-red-400 prose-a:no-underline hover:prose-a:underline
+                            prose-strong:text-white prose-strong:font-black
+                            prose-li:text-white/60 prose-img:rounded-xl
+                            prose-table:text-sm"
+                          dangerouslySetInnerHTML={{ __html: form.content }}
+                        />
+                      ) : (
+                        <div className="whitespace-pre-wrap text-sm sm:text-base text-white/60 leading-relaxed">
+                          {form.content || 'Konten artikel akan ditampilkan di sini...'}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               ) : (

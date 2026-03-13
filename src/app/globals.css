@@ -111,17 +111,21 @@ body {
 }
 
 /* ── Cards ── */
+:root {
+  --card-px: clamp(1.25rem, 5vw, 1.75rem);
+  --card-py: clamp(1.5rem, 6vw, 2rem);
+}
+
 .app-card {
   background: var(--card-bg);
   border-radius: 1.25rem;
-  padding: 1.25rem 1.25rem 1.5rem;
+  padding: var(--card-px) var(--card-px) var(--card-py);
   border: 1px solid var(--border-color);
   box-shadow: var(--card-shadow);
 }
 
 @media (min-width: 640px) {
   .app-card {
-    padding: 1.75rem 1.75rem 2rem;
     border-radius: 1.5rem;
   }
 }

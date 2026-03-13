@@ -46,6 +46,7 @@ export default function ProdukPage() {
   const [saving, setSaving] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [previewMode, setPreviewMode] = useState(false);
   const [form, setForm] = useState(emptyProduct());
   const [toast, setToast] = useState('');
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
@@ -247,22 +248,125 @@ export default function ProdukPage() {
           <div className="max-w-2xl mx-auto bg-[#161718] border border-white/10 rounded-2xl my-8">
             {/* Modal header */}
             <div className="flex items-center justify-between p-5 border-b border-white/[0.06]">
-              <p className="text-white font-black">{editId ? 'Edit Produk' : 'Tambah Produk Baru'}</p>
-              <button onClick={() => setShowForm(false)} className="text-white/30 hover:text-white/60 transition-colors text-xl leading-none">×</button>
+              <div className="flex items-center gap-4">
+                <p className="text-white font-black">{editId ? 'Edit Produk' : 'Tambah Produk Baru'}</p>
+                <div className="flex bg-white/5 p-1 rounded-lg">
+                  <button
+                    onClick={() => setPreviewMode(false)}
+                    className={`px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-md transition-all ${!previewMode ? 'bg-red-500 text-white shadow-lg' : 'text-white/40 hover:text-white/60'}`}
+                  >
+                    Editor
+                  </button>
+                  <button
+                    onClick={() => setPreviewMode(true)}
+                    className={`px-3 py-1 text-[10px] font-black uppercase tracking-widest rounded-md transition-all ${previewMode ? 'bg-red-500 text-white shadow-lg' : 'text-white/40 hover:text-white/60'}`}
+                  >
+                    Preview
+                  </button>
+                </div>
+              </div>
+              <button onClick={() => { setShowForm(false); setPreviewMode(false); }} className="text-white/30 hover:text-white/60 transition-colors text-xl leading-none">×</button>
             </div>
 
-            <div className="p-5 space-y-5 max-h-[75vh] overflow-auto">
-              {/* Basic info */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="col-span-2">
-                  <label className="block text-xs font-black text-white/40 uppercase tracking-widest mb-1.5">Nama Produk *</label>
-                  <input
-                    value={form.name}
-                    onChange={e => handleNameChange(e.target.value)}
-                    placeholder="Cetak Kartu Nama"
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-red-500/50 transition-all"
-                  />
+            <div className="max-h-[75vh] overflow-auto">
+              {previewMode ? (
+                /* Preview — Matches Hero.tsx styling */
+                <div className="p-6 sm:p-8 bg-[#0f1011] text-left">
+                  <div className="max-w-2xl mx-auto space-y-6">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-1.5 text-red-500">
+                        <span className="text-sm font-bold">← Kembali</span>
+                      </div>
+                      <div className="px-2 py-0.5 rounded-full border border-white/10 text-[10px] text-white/40 font-bold uppercase tracking-widest">
+                        {form.category}
+                      </div>
+                    </div>
+
+                    {/* Images */}
+                    {form.images.length > 0 && (
+                      <div className="rounded-2xl overflow-hidden aspect-[4/3] bg-white/5 border border-white/10">
+                        <img src={form.images[0]} alt="" className="w-full h-full object-cover" />
+                        {form.images.length > 1 && (
+                          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5">
+                            {form.images.map((_, i) => (
+                              <div key={i} className={`w-1.5 h-1.5 rounded-full ${i === 0 ? 'bg-white' : 'bg-white/30'}`} />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    <div>
+                      <h2 className="text-white text-2xl font-black mb-2 tracking-tight">{form.name || 'Nama Produk...'}</h2>
+                      <p className="text-white/60 text-sm leading-relaxed mb-6">{form.description || 'Deskripsi singkat...'}</p>
+                      
+                      {/* Specs & Details */}
+                      <div className="pt-6 border-t border-white/10 space-y-6">
+                        {/* Specs Grid */}
+                        {form.specs.length > 0 && (
+                          <div className="grid grid-cols-2 gap-3">
+                            {form.specs.map((s, i) => (
+                              <div key={i} className="bg-white/5 rounded-xl p-3 border border-white/5">
+                                <span className="text-lg">{s.icon}</span>
+                                <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mt-1">{s.label}</p>
+                                <p className="text-xs font-bold text-white mt-0.5">{s.value}</p>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Features */}
+                        {form.features.length > 0 && (
+                          <div className="rounded-xl border border-white/10 overflow-hidden">
+                            <div className="px-4 py-2.5 bg-white/5 border-b border-white/10">
+                              <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Keunggulan</p>
+                            </div>
+                            <div className="divide-y divide-white/5">
+                              {form.features.map((f, i) => (
+                                <div key={i} className="flex items-center gap-2.5 px-4 py-2.5">
+                                  <span className="text-red-500 font-black text-sm">✓</span>
+                                  <p className="text-xs font-semibold text-white/60">{f}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Prices */}
+                        {form.prices.length > 0 && (
+                          <div className="rounded-xl border border-white/10 overflow-hidden">
+                            <div className="px-4 py-2.5 bg-white/5 border-b border-white/10">
+                              <p className="text-[10px] font-black text-white/30 uppercase tracking-widest">Estimasi Harga</p>
+                            </div>
+                            <div className="divide-y divide-white/5">
+                              {form.prices.map((p, i) => (
+                                <div key={i} className="flex items-center justify-between px-4 py-2.5">
+                                  <p className="text-xs font-bold text-white/80">{p.label}</p>
+                                  <p className="text-xs font-black text-red-400">{p.price}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              ) : (
+                <div className="p-5 space-y-5">
+                  {/* Basic info */}
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="col-span-2">
+                      <label className="block text-xs font-black text-white/40 uppercase tracking-widest mb-1.5">Nama Produk *</label>
+                      <input
+                        value={form.name}
+                        onChange={e => handleNameChange(e.target.value)}
+                        placeholder="Cetak Kartu Nama"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm placeholder-white/20 focus:outline-none focus:border-red-500/50 transition-all"
+                      />
+                    </div>
+                    {/* ... rest of the form ... */}
                 <div>
                   <label className="block text-xs font-black text-white/40 uppercase tracking-widest mb-1.5">Slug URL *</label>
                   <input
@@ -477,9 +581,11 @@ export default function ProdukPage() {
                     onChange={e => setForm(f => ({ ...f, sort_order: parseInt(e.target.value) || 0 }))}
                     className="w-16 bg-white/5 border border-white/10 rounded-lg px-2 py-1.5 text-white text-sm text-center focus:outline-none focus:border-red-500/50 transition-all"
                   />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+          </div>
 
             {/* Modal footer */}
             <div className="flex items-center justify-end gap-3 p-5 border-t border-white/[0.06]">

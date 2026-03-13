@@ -179,7 +179,7 @@ export default function Hero({
 
         {/* Cover image — flush ke tepi card */}
         {activeBlogPost.cover_url && (
-          <div className="aspect-[16/9] bg-subtle -mx-5 sm:-mx-7 -mt-0 mb-4 sm:mb-6">
+          <div className="aspect-[16/9] bg-subtle mb-4 sm:mb-6" style={{ marginLeft: 'calc(-1 * var(--card-px))', marginRight: 'calc(-1 * var(--card-px))' }}>
             <img
               src={activeBlogPost.cover_url}
               alt={activeBlogPost.title}
@@ -253,7 +253,7 @@ export default function Hero({
 
         {/* Foto produk — flush ke tepi card */}
         {activeToolData.images && activeToolData.images.length > 0 && (
-          <div className="-mx-5 sm:-mx-7 mb-4 sm:mb-5">
+          <div className="mb-4 sm:mb-5" style={{ marginLeft: 'calc(-1 * var(--card-px))', marginRight: 'calc(-1 * var(--card-px))' }}>
             <ImageGallery images={activeToolData.images} name={activeToolData.name} />
           </div>
         )}
