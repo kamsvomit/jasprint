@@ -72,6 +72,7 @@ interface RawProduct {
   gradient: string;
   is_active: boolean;
   sort_order: number;
+  images: string[];
   specs: ProductSpec[];
   features: string[];
   prices: ProductPrice[];
@@ -126,6 +127,7 @@ async function getStaticProducts(): Promise<ProductData[]> {
           gradient: 'from-gray-500 to-slate-400',
           isActive: true,
           sortOrder: 99,
+          images: [],
           specs: [],
           features: [],
           prices: [],
