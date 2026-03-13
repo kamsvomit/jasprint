@@ -27,10 +27,14 @@ export async function signIn(email: string, password: string): Promise<{ user: A
     return { user: null, error: data.error_description || data.error || 'Login gagal' };
   }
 
-  // Simpan session
+  // Simpan session di localStorage
   localStorage.setItem('jasprint_access_token', data.access_token);
   localStorage.setItem('jasprint_refresh_token', data.refresh_token);
   localStorage.setItem('jasprint_user', JSON.stringify({ id: data.user.id, email: data.user.email }));
+
+  // Simpan di cookie untuk middleware edge (8 jam)
+  const maxAge = 60 * 60 * 8;
+  document.cookie = `jasprint_token=${data.access_token}; path=/; max-age=${maxAge}; SameSite=Strict`;
 
   return { user: { id: data.user.id, email: data.user.email }, error: null };
 }
@@ -46,6 +50,8 @@ export async function signOut() {
   localStorage.removeItem('jasprint_access_token');
   localStorage.removeItem('jasprint_refresh_token');
   localStorage.removeItem('jasprint_user');
+  // Hapus cookie
+  document.cookie = 'jasprint_token=; path=/; max-age=0; SameSite=Strict';
 }
 
 export function getStoredUser(): AdminUser | null {
