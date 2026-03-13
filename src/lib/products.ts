@@ -93,6 +93,7 @@ function mapProduct(raw: RawProduct): ProductData {
     gradient: raw.gradient ?? 'from-gray-500 to-slate-400',
     isActive: raw.is_active,
     sortOrder: raw.sort_order,
+    images: raw.images ?? [],
     specs: raw.specs ?? [],
     features: raw.features ?? [],
     prices: raw.prices ?? [],
