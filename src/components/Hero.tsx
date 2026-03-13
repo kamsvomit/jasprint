@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { ArrowLeft, Share2, Search, ChevronRight, BookOpen, Calendar, User } from 'lucide-react';
+import { ArrowLeft, Share2, Search, ChevronRight, BookOpen, Calendar, User, ChevronLeft } from 'lucide-react';
 import { Product } from '../types';
 import { ProductData } from '../lib/products';
 import { BlogPost, formatDate } from '../lib/blog';
@@ -20,6 +20,66 @@ interface HeroProps {
   products: ProductData[];
   onSelectTool: (prod: ProductData) => void;
   onSelectBlogPost: (post: BlogPost) => void;
+}
+
+function ImageGallery({ images, name }: { images: string[]; name: string }) {
+  const [active, setActive] = React.useState(0);
+
+  if (images.length === 0) return null;
+
+  return (
+    <div className="mb-5">
+      {/* Main image */}
+      <div className="relative rounded-2xl overflow-hidden bg-subtle aspect-[4/3] mb-2 group">
+        <img
+          src={images[active]}
+          alt={`${name} - foto ${active + 1}`}
+          className="w-full h-full object-cover transition-opacity duration-200"
+        />
+        {/* Arrow nav kalau lebih dari 1 foto */}
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={() => setActive(i => (i - 1 + images.length) % images.length)}
+              className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setActive(i => (i + 1) % images.length)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+            {/* Dots */}
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+              {images.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActive(i)}
+                  className={`rounded-full transition-all ${i === active ? 'w-4 h-1.5 bg-white' : 'w-1.5 h-1.5 bg-white/50 hover:bg-white/80'}`}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+      {/* Thumbnails */}
+      {images.length > 1 && (
+        <div className="flex gap-1.5 overflow-x-auto pb-0.5">
+          {images.map((url, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              className={`flex-shrink-0 w-14 h-14 rounded-xl overflow-hidden border-2 transition-all ${i === active ? 'border-red-500' : 'border-transparent opacity-60 hover:opacity-100'}`}
+            >
+              <img src={url} alt="" className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 function ProductRenderer({ activeTool }: { activeTool: Product | null }) {
@@ -156,6 +216,12 @@ export default function Hero({
     return (
       <div className="app-card">
         <BackHeader label={activeToolData.name} badge={activeToolData.category} onClose={onClose} />
+
+        {/* Foto produk dari Supabase Storage */}
+        {activeToolData.images && activeToolData.images.length > 0 && (
+          <ImageGallery images={activeToolData.images} name={activeToolData.name} />
+        )}
+
         <h2 className="text-xl font-black text-primary mb-1.5 tracking-tight">{activeToolData.name}</h2>
         <p className="text-sm text-secondary leading-relaxed mb-5">{activeToolData.description}</p>
         <ProductRenderer activeTool={activeTool} />
