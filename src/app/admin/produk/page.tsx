@@ -349,6 +349,31 @@ export default function ProdukPage() {
                             </div>
                           </div>
                         )}
+
+                        {/* Long Description — Matches Hero.tsx */}
+                        {form.long_description && (
+                          <div className="pt-6 border-t border-white/10">
+                            <p className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-4">Tentang Produk Ini</p>
+                            {(/<[a-z][\s\S]*>/i.test(form.long_description) || form.long_description.includes('</')) ? (
+                              <article
+                                className="prose prose-sm prose-invert max-w-none
+                                  prose-headings:font-black prose-headings:text-white prose-headings:tracking-tight
+                                  prose-p:text-white/60 prose-p:leading-relaxed
+                                  prose-a:text-red-400 prose-a:no-underline hover:prose-a:underline
+                                  prose-strong:text-white prose-strong:font-black
+                                  prose-li:text-white/60 prose-img:rounded-xl
+                                  prose-table:text-sm"
+                                dangerouslySetInnerHTML={{ __html: form.long_description }}
+                              />
+                            ) : (
+                              <div className="space-y-3">
+                                {form.long_description.split('\n\n').map((para, i) => (
+                                  <p key={i} className="text-xs text-white/60 leading-relaxed">{para}</p>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

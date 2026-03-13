@@ -61,24 +61,12 @@ export default function BlogPage() {
     setPreviewMode(false);
   }
 
-  // Convert plain text ke HTML kalau belum berformat HTML
-  function plainTextToHtml(text: string): string {
-    if (!text) return '';
-    // Kalau sudah ada tag HTML, return as-is
-    if (/<[a-z][\s\S]*>/i.test(text)) return text;
-    // Convert plain text: paragraf dipisah 2 newline, baris tunggal jadi <br>
-    return text
-      .split(/\n\n+/)
-      .map(para => `<p>${para.replace(/\n/g, '<br>')}</p>`)
-      .join('\n');
-  }
-
   async function handleSave() {
     if (!form.title || !form.slug) { showToast('Judul dan slug wajib diisi!'); return; }
     setSaving(true);
     const payload = {
       ...form,
-      content: plainTextToHtml(form.content ?? ''),
+      content: form.content ?? '',
     };
     if (editId) {
       await updatePost(editId, payload);
@@ -298,7 +286,7 @@ export default function BlogPage() {
                     )}
                     
                     <div className="border-t border-white/[0.06] pt-6">
-                      {/<[a-z][\s\S]*>/i.test(form.content) ? (
+                      {form.content && (/<[a-z][\s\S]*>/i.test(form.content) || form.content.includes('</')) ? (
                         <article
                           className="prose prose-sm sm:prose-base prose-invert max-w-none
                             prose-headings:font-black prose-headings:text-white prose-headings:tracking-tight

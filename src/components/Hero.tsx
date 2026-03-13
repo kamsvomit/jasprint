@@ -258,8 +258,8 @@ export default function Hero({
         {/* Content */}
         {activeBlogPost.content ? (
           <div className="border-t border-subtle pt-4 sm:pt-5">
-            {/<[a-z][\s\S]*>/i.test(activeBlogPost.content) ? (
-              // HTML content — render dengan prose
+            {/* Render as HTML if it contains tags, otherwise as plain text with line breaks */}
+            {/<[a-z][\s\S]*>/i.test(activeBlogPost.content) || activeBlogPost.content.includes('</') ? (
               <article
                 className="prose prose-sm sm:prose-base prose-slate max-w-none
                   prose-headings:font-black prose-headings:text-primary prose-headings:tracking-tight
@@ -271,7 +271,6 @@ export default function Hero({
                 dangerouslySetInnerHTML={{ __html: activeBlogPost.content }}
               />
             ) : (
-              // Plain text — preserve newlines
               <div className="whitespace-pre-wrap text-sm sm:text-base text-secondary leading-relaxed">
                 {activeBlogPost.content}
               </div>
@@ -325,11 +324,25 @@ export default function Hero({
         {activeToolData.longDescription && (
           <div className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-subtle">
             <p className="text-[10px] sm:text-xs font-bold text-quaternary uppercase tracking-widest mb-3 sm:mb-4">Tentang Produk Ini</p>
-            <div className="space-y-2.5 sm:space-y-3">
-              {activeToolData.longDescription.split('\n\n').map((para, i) => (
-                <p key={i} className="text-sm text-secondary leading-relaxed">{para}</p>
-              ))}
-            </div>
+            
+            {/<[a-z][\s\S]*>/i.test(activeToolData.longDescription) || activeToolData.longDescription.includes('</') ? (
+              <article
+                className="prose prose-sm sm:prose-base prose-slate max-w-none
+                  prose-headings:font-black prose-headings:text-primary prose-headings:tracking-tight
+                  prose-p:text-secondary prose-p:leading-relaxed
+                  prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline
+                  prose-strong:text-primary prose-strong:font-black
+                  prose-li:text-secondary prose-img:rounded-xl sm:prose-img:rounded-2xl
+                  prose-table:text-sm dark:prose-invert"
+                dangerouslySetInnerHTML={{ __html: activeToolData.longDescription }}
+              />
+            ) : (
+              <div className="space-y-2.5 sm:space-y-3">
+                {activeToolData.longDescription.split('\n\n').map((para, i) => (
+                  <p key={i} className="text-sm text-secondary leading-relaxed">{para}</p>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
