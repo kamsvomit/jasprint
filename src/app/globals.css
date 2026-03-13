@@ -4,29 +4,18 @@
 @theme {
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: "SF Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --color-arsenic: #5D5E5F;
+  --color-arsenic: #3b444b;
   
-  --color-slate-50: rgba(93, 94, 95, 0.02);
-  --color-slate-100: rgba(93, 94, 95, 0.05);
-  --color-slate-200: rgba(93, 94, 95, 0.1);
-  --color-slate-300: rgba(93, 94, 95, 0.2);
-  --color-slate-400: rgba(93, 94, 95, 0.4);
-  --color-slate-500: rgba(93, 94, 95, 0.6);
-  --color-slate-600: rgba(93, 94, 95, 0.8);
-  --color-slate-700: #5D5E5F;
-  --color-slate-800: #4a4b4c;
-  --color-slate-900: #3b3c3d;
-
-  --color-gray-50: rgba(93, 94, 95, 0.02);
-  --color-gray-100: rgba(93, 94, 95, 0.05);
-  --color-gray-200: rgba(93, 94, 95, 0.1);
-  --color-gray-300: rgba(93, 94, 95, 0.2);
-  --color-gray-400: rgba(93, 94, 95, 0.4);
-  --color-gray-500: rgba(93, 94, 95, 0.6);
-  --color-gray-600: rgba(93, 94, 95, 0.8);
-  --color-gray-700: #5D5E5F;
-  --color-gray-800: #4a4b4c;
-  --color-gray-900: #3b3c3d;
+  --color-slate-50: #f8f9fa;
+  --color-slate-100: #f1f3f5;
+  --color-slate-200: #e9ecef;
+  --color-slate-300: #dee2e6;
+  --color-slate-400: #ced4da;
+  --color-slate-500: #adb5bd;
+  --color-slate-600: #868e96;
+  --color-slate-700: #495057;
+  --color-slate-800: #343a40;
+  --color-slate-900: #212529;
 
   --color-black: #1a1b1c;
 }
@@ -41,41 +30,43 @@ html {
   --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   --card-bg: #ffffff;
   --body-bg: #f8f9fa;
-  --border-color: rgba(93, 94, 95, 0.15);
-  --input-bg: rgba(93, 94, 95, 0.05);
-  --text-main: #1a1b1c;
-
-  /* Semantic text hierarchy - Improved contrast for Light Mode */
-  --text-primary:    #111827; /* gray-900 */
-  --text-secondary:  #374151; /* gray-700 */
-  --text-tertiary:   #374151; /* gray-700 */
-  --text-quaternary: #4b5563; /* gray-600 */
+  --border-color: rgba(59, 68, 75, 0.1);
+  --input-bg: rgba(59, 68, 75, 0.04);
+  
+  /* Semantic text hierarchy - Arsenic Based */
+  --text-primary:    #3b444b; /* Arsenic */
+  --text-secondary:  #4a555e; /* Slightly lighter Arsenic */
+  --text-tertiary:   #5a6671; /* Even lighter but still solid */
+  --text-quaternary: #6a7784; /* Minimal fade, high visibility */
+  
+  --text-main: var(--text-primary);
 
   /* Semantic border & bg */
-  --border-subtle: rgba(93, 94, 95, 0.1);
-  --border-normal: rgba(93, 94, 95, 0.2);
-  --bg-subtle:     rgba(93, 94, 95, 0.04);
+  --border-subtle: rgba(59, 68, 75, 0.08);
+  --border-normal: rgba(59, 68, 75, 0.15);
+  --bg-subtle:     rgba(59, 68, 75, 0.03);
   --bg-hover:      rgba(239, 68, 68, 0.05);
 }
 
 .dark {
   --card-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
-  --card-bg: #2d2e2f;
-  --body-bg: #111213;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --input-bg: rgba(255, 255, 255, 0.06);
-  --text-main: #e2e8f0;
-
-  /* Semantic text hierarchy - dark */
-  --text-primary:    #e8eaed;
-  --text-secondary:  #c0c4cc;
-  --text-tertiary:   #9099a8;
-  --text-quaternary: #6b7585;
+  --card-bg: #212223;
+  --body-bg: #161718;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --input-bg: rgba(255, 255, 255, 0.05);
+  
+  /* Semantic text hierarchy - Dark Mode */
+  --text-primary:    #eceff4; /* Off-white */
+  --text-secondary:  #d8dee9; /* Subtle gray-white */
+  --text-tertiary:   #c0c4cc; /* Visible gray */
+  --text-quaternary: #9099a8; /* High contrast gray */
+  
+  --text-main: var(--text-primary);
 
   /* Semantic border & bg - dark */
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-normal: rgba(255, 255, 255, 0.12);
-  --bg-subtle:     rgba(255, 255, 255, 0.05);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-normal: rgba(255, 255, 255, 0.1);
+  --bg-subtle:     rgba(255, 255, 255, 0.04);
   --bg-hover:      rgba(239, 68, 68, 0.08);
 }
 
