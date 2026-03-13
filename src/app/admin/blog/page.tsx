@@ -61,13 +61,29 @@ export default function BlogPage() {
     setPreviewMode(false);
   }
 
+  // Convert plain text ke HTML kalau belum berformat HTML
+  function plainTextToHtml(text: string): string {
+    if (!text) return '';
+    // Kalau sudah ada tag HTML, return as-is
+    if (/<[a-z][\s\S]*>/i.test(text)) return text;
+    // Convert plain text: paragraf dipisah 2 newline, baris tunggal jadi <br>
+    return text
+      .split(/\n\n+/)
+      .map(para => `<p>${para.replace(/\n/g, '<br>')}</p>`)
+      .join('\n');
+  }
+
   async function handleSave() {
     if (!form.title || !form.slug) { showToast('Judul dan slug wajib diisi!'); return; }
     setSaving(true);
+    const payload = {
+      ...form,
+      content: plainTextToHtml(form.content ?? ''),
+    };
     if (editId) {
-      await updatePost(editId, form);
+      await updatePost(editId, payload);
     } else {
-      await createPost(form);
+      await createPost(payload);
     }
     await load();
     setShowForm(false);

@@ -202,16 +202,24 @@ export default function Hero({
         {/* Content */}
         {activeBlogPost.content ? (
           <div className="border-t border-subtle pt-4 sm:pt-5">
-            <article
-              className="prose prose-sm sm:prose-base prose-slate max-w-none
-                prose-headings:font-black prose-headings:text-primary prose-headings:tracking-tight
-                prose-p:text-secondary prose-p:leading-relaxed
-                prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline
-                prose-strong:text-primary prose-strong:font-black
-                prose-li:text-secondary prose-img:rounded-xl sm:prose-img:rounded-2xl
-                prose-table:text-sm dark:prose-invert"
-              dangerouslySetInnerHTML={{ __html: activeBlogPost.content }}
-            />
+            {/<[a-z][\s\S]*>/i.test(activeBlogPost.content) ? (
+              // HTML content — render dengan prose
+              <article
+                className="prose prose-sm sm:prose-base prose-slate max-w-none
+                  prose-headings:font-black prose-headings:text-primary prose-headings:tracking-tight
+                  prose-p:text-secondary prose-p:leading-relaxed
+                  prose-a:text-red-500 prose-a:no-underline hover:prose-a:underline
+                  prose-strong:text-primary prose-strong:font-black
+                  prose-li:text-secondary prose-img:rounded-xl sm:prose-img:rounded-2xl
+                  prose-table:text-sm dark:prose-invert"
+                dangerouslySetInnerHTML={{ __html: activeBlogPost.content }}
+              />
+            ) : (
+              // Plain text — preserve newlines
+              <div className="whitespace-pre-wrap text-sm sm:text-base text-secondary leading-relaxed">
+                {activeBlogPost.content}
+              </div>
+            )}
           </div>
         ) : (
           <div className="flex items-center justify-center py-10">
