@@ -32,6 +32,7 @@ export interface ProductData {
   gradient: string;
   isActive: boolean;
   sortOrder: number;
+  images: string[];
   specs: ProductSpec[];
   features: string[];
   prices: ProductPrice[];
