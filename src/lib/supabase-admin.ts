@@ -101,6 +101,7 @@ export interface AdminProduct {
   gradient: string;
   is_active: boolean;
   sort_order: number;
+  images: string[];
   specs: ProductSpec[];
   features: string[];
   prices: ProductPrice[];
